@@ -1,0 +1,9 @@
+{
+  "id": "@id()",
+  "username": "@cname()",
+  "date": "@date()",
+  "avatar": "@image('200x200','red','#fff','avatar')",
+  "ip": "@ip()",
+  "email": "@email()"
+}
+
