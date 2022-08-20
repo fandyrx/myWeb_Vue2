@@ -123,5 +123,5 @@ export const reqHomeImages = (params)=> requests({
 //query ?k=v 写法 params      
 //params  写法  data:params   使用data选项
 
-占位
+路由占位
 ```

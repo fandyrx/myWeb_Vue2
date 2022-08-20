@@ -11,9 +11,6 @@ const requests = axios.create({
 //2.请求拦截器
 requests.interceptors.request.use((config)=>{
   //config:配置对象 内含headers
-      
-
-
     return config
 })
 
