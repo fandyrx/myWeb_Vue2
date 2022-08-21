@@ -18,34 +18,38 @@
 				</el-dropdown-menu>
 			</el-dropdown>
 		</el-card>
+
 		<!-- 展示区 -->
 		<el-card>
-			<div class="text item">
-				<el-row >
+			
+				<el-row>
 					<el-col  
-           v-for="item in showImages"
+						v-for="item in showImages"
            :key="item.id"  
            :span="8" 
            :offset="showImages.length > 0 ? 2 : 0"  
-           :style="{height:'350px'}"
+					  :xs="12" 
            >
-           <!-- 设置高度,解决图片大小不一引起模板空白 -->
+           <!-- 行内设置高度,解决图片大小不一引起模板空白 失败,直接修改el-col 样式-->
 						<el-card
-             
+					
              :body-style="{ padding: '0px'}">
 							<img :src="item.url" class="image" />
-             
+								<!-- 文本 -->
 							<div style="padding: 14px">
+
 								<span >{{ item.title }}</span>
+
 								<div class="bottom clearfix">
 									<time class="time">{{ currentDate }}</time>
 									<el-button type="text" class="button">操作按钮</el-button>
 								</div>
 							</div>
 						</el-card>
+					  
 					</el-col>
 				</el-row>
-			</div>
+
 
 			<!-- 分页器 -->
 			<el-pagination 
@@ -89,7 +93,7 @@ export default {
       
       limit:10,    //每页数据
       total:0, //分页一共需要展示数据条数
-     
+	    
       
 		};
 	},
@@ -100,12 +104,9 @@ export default {
 		},
     //1.获取展示图片请求
 		async getImages(pages = 1) {
-     
-      
       this.imagesType.page = pages
 			let res = await reqHomeImages(this.imagesType);
 			if (res.code === 200) {
-        
 				this.showImages = res.result.list;
         this.total = res.result.total
 			}
@@ -115,27 +116,43 @@ export default {
 			if (type === "random") {
 				let arr = ["comic", "beauty", "car", "movie", "food", "game", "phone", "scenery", "animal", "person"];
 				let i = Math.floor(Math.random() * 10);
-				this.imagesType.type = arr[i];
-				
+				this.imagesType.type = arr[i];	
+				this.getImages(this.randNum(1,30));
+				//30页 随机数据展示
 			} else {
 				this.imagesType.type = type;
-			}
-			this.getImages();
+				this.getImages();
+			}	
 		},
     //3.分页器回调  3.1展示数量改变
    
     handleSizeChange(size){
         this.imagesType.page = this.page
         this.imagesType.size = size
-        console.log(this.page);
+        // console.log(this.page);
        
-        console.log(this.imagesType,'change前');
+        // console.log(this.imagesType,'change前');
         this.getImages(this.page)
 
-    }
+    },
+		randNum(min,max){
+				let random = Math.random()   //0.1-0.9  
+				//  min  - max  之间随机数
+				//最小为 0    0 * max + min = min  最小值
+				//最大为 0.9  0.9 * max 永远小于自身 + 1 再向下取整可得max 自身
+				//   	Math.floor( Math.random() * (max  + 1 ))  + min =   max + min 
+					//我最大只要 max   
+				//   Math.floor( Math.random() * (max  - min + 1 ) )  + min  =   max    
+				//	   0.9* max - 0.9*min +1 + min 
+				//    0.9*max + 1 (max.xxxx)- 0.9*min +min(0.xxx) = max.xxx-0.xxxx  (不会小于max,再向下取整) 
+				min = Math.ceil(min);
+				max = Math.floor(max);
+				return Math.floor( Math.random() * (max  - min + 1 ) )  + min 
+
+		}
 	},
 	mounted() {
-		this.getImages();
+		this.changeType("random")
 	},
 };
 </script>
@@ -149,9 +166,7 @@ export default {
 .header {
 	font-weight: 700;
 }
-.text{
-  margin-bottom: 50px;
-}
+
 .time {
 	font-size: 13px;
 	color: #999;
@@ -182,7 +197,27 @@ export default {
 .clearfix:after {
 	clear: both;
 }
-/* 下拉 */
+/* bug fixed */
+.el-row {
+    margin-bottom: 20px ;
+    display:flex;
+    flex-wrap: wrap;
+  }
+.el-row  .el-card {
+    min-width: 100%;
+    height: 100%;
+		transition: all .5s;
+  }
+	
+	.el-row .el-card:hover{
+    margin-top: -5px;
+		margin-bottom: 5px;
+  }
+	.el-col {
+		margin-bottom: 20px;
+	}
+
+/* 下拉框 */
 .el-dropdown-link {
 	cursor: pointer;
 	color: #409eff;

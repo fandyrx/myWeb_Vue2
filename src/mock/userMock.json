@@ -2,7 +2,7 @@
   "id": "@id()",
   "username": "@cname()",
   "date": "@date()",
-  "avatar": "@image('200x200','red','#fff','avatar')",
+  "avatar": "@image('200x200','','#fff','avatar')",
   "ip": "@ip()",
   "email": "@email()"
 }

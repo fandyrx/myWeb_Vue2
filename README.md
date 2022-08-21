@@ -65,7 +65,7 @@ export const reqUserInfo = () => mockRequest.get("/user")
   
   ---
  
-- 2. vue.config.js 
+- 2, vue.config.js 
   - 根据古老的记忆,到vue.config.js 再代理处写了mock开启数据: before:require('./mock/mock-server.js'),无限报错,版本不一样
   - 上面那几步就可以mock了
 ---
@@ -123,5 +123,41 @@ export const reqHomeImages = (params)=> requests({
 //query ?k=v 写法 params      
 //params  写法  data:params   使用data选项
 
-路由占位
+
 ```
+````
+路由params 传参 
+对象写法:路径需要Name指明,防止空字符,加undefined 
+this.$router.push({name:'/home',params:{id:'' || undefined}}) 
+/home/:id?  params/url的一部分 ?代表0/1
+
+路由props
+1.props:true  只能传递 params参数
+2.props:{a:1, b:2}
+3.第三种写法:函数写法.一般是把query参数与params参数当中props传递给路由组件!!!
+        //route就是当前路由
+        // props:(route)=>{
+        //      //是将当前箭头函数返回结果，作为props传递给search路由组件!!!
+        //      return {a:route.params.keyword,b:'可以传递参数'};
+````
+-----
+## 3  尚品汇后台,Duplicate named routes definition:路由名重复
+
+看论坛一坨一坨的代码讲解,脑壳疼
+   - 3.1 根据名字提示,没起重复的话.就是动态路由有问题,路由加个方法,调用自用的就完事了
+````
+//路由实例加个自定义方法,自带的方法没有去除旧的路由信息
+router.$addRoutes = (params) => {
+	router.matcher = new Router({mode: 'history'}).matcher
+	router.addRoutes(params)
+}
+
+````
+
+
+## 4 首页修复 抖动,图片大小不一,出现空白区域  8.21
+4.1el-col 添加 margin-bottom 
+ - el-row :{display:flex ,   flex-wrap: wrap;} column 自动分布,图片大小自动均一适应父盒子
+ - bug :hover margin-5px 时, 页面抖动.  bottom 补5px 页面抖动消失
+4.2图片初次展示 改动为随机获取
+4.3修复用户栏,天气组件展示方式

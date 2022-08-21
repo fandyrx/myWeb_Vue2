@@ -26,9 +26,7 @@ const routes = [
     path:"/blog",
     component:blog
   }
-
 ]
-
 //2.创建路由实例
 const  router = new VueRouter({
   mode:'history',

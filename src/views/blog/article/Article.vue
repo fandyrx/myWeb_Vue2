@@ -1,27 +1,22 @@
 <template>
   <div>
-      blog area
-      <Article/>
+        swiper for article pic?
+
+        article list 
  </div>
 </template>
 
 <script>
-import Article from '@/views/blog/article/Article'
 export default {
-  name: 'Blog',
+  name: 'Article',
   data() { 
     return {
 
     }
   },
-  components:{
-    Article
-  },
-  methods:{
-
-  },
+ 
   mounted() {
-
+      
   },
  }
 </script>

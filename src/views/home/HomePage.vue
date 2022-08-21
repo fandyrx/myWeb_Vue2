@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<Navbar>
-			<span slot="left"> 图标 </span>
+			<img slot="left"  src="~@/assets/img/NavLogo.jpg"   alt="loading.." class="nav-logo"/>
 
 			<span slot="middle">
 				<el-menu
@@ -33,16 +33,16 @@
 		</Navbar>
 
 		<!-- 天气 -->
-		<el-switch 
-		 		class="switch"
-			 v-model="isShow"
-			 active-color="#13ce66" 
-			 inactive-color="gray"
-			 active-text="天气预报"
-			 > 
-			</el-switch> 
-		<div class="weather-warp" v-show="isShow">
-			
+		
+			<div class="weather-show"
+       @click="handleClick"
+			 @mouseover="handleEnter"
+			 @mouseleave="handleLeave"
+			 >
+			  <i class="weather-text" >天气预报</i>
+			 </div>
+		<div class="weather-warp" v-show="isShow">	
+
 			<Weather />
 		</div>
 
@@ -50,6 +50,12 @@
 
 		<Footer></Footer>
 	</div>
+	
+ 
+
+
+
+
 </template>
 
 <script>
@@ -58,12 +64,13 @@ import Weather from "@/components/common/Weather/Weather.vue";
 import Navbar from "@/components/common/NavBar/Navbar.vue";
 import MainArea from '@/views/home/mainArea/MainArea'
 import Footer from "@/components/common/Footer/Footer";
+
 export default {
 	name: "HomePage",
 	data() {
 		return {
 			activeIndex: "home",
-			isShow:true,
+			isShow:false,
 			userInfo:{
 				id:'',
 				email:'',
@@ -85,6 +92,7 @@ export default {
 	},
 	methods: {
 		handleSelect(key, keyPath) {
+			//验证ui组件作用
 			console.log(key, keyPath);
 		},
    async	getUserInfo(){
@@ -100,6 +108,23 @@ export default {
 				if(result.code === 200){
 					this.sentence = result.result
 				}
+		},
+		//控制天气开关
+		handleClick(e){
+				this.isShow = !this.isShow 
+				// ? 无法解绑?
+				// window.removeEventListener("mouseleave",this.handleLeave,true)
+				// e.target.removeEventListener("mouseleave",this.handleLeave)
+				// 	this.$off('mouseleave',this.handleLeave)
+					
+		},
+		handleEnter(){
+				this.isShow = true
+			
+		},
+		handleLeave(){
+			this.isShow = false
+	  
 		}
 	},
 	mounted(){
@@ -117,24 +142,28 @@ export default {
 	/* background-color: skyblue; */
 }
 
-.switch {
-	position: absolute;
-	right: 0;
+
+.nav-logo{
+	height: 64px;
+	border-radius: 10px;
 }
+
 .weather-warp {
 	position: absolute;
-	margin-top:20px;
+	margin-top:50px;
 	right: 0;
 	z-index: 2;
 }
 .user{
-	margin: 0 20px;
-	height: 64px;
+	margin-right:  20px;
+	width: 100%;
+	height: 100%;
 	display: flex;
-		vertical-align: middle;
+	vertical-align: middle;
 }
 .username{
-    margin-right: 10px;
+		
+    margin-right: 20px;
 		color: rgb(78, 70, 70);
 		font-size: 14px;
 		font-weight: 700;
@@ -142,10 +171,36 @@ export default {
 }
 .avatar{
 	position: relative;
-	top:5px;
-	width: 50%;
-	height: 80%;
+	top:10px;
+	width: 30%;
+	height: 60%;
 	border-radius: 50%;
 	box-shadow: 0px 0px 5px #888888;
 }
+
+/* weather */
+.weather-show{
+	position: absolute;
+	right: 50px;
+  margin: auto;
+	border-radius: 50%;
+	height: 20px;
+	width: 20px;
+  border: 20px solid lightslategray;
+	box-shadow: 0 0 0 5px rgba(2, 238, 255, 0.2);
+}
+.weather-show:hover{
+	color: lightblue;
+	border: 20px solid lightgreen;
+	box-shadow: 0 0 0 5px rgba(25, 164, 174, 0.2);
+	transition: all  0.5s
+}
+.weather-text{
+	position: absolute;
+	right: 25px;
+	font-size: 12px;
+	width: 50px;
+}
+
+
 </style>
