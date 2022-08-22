@@ -2,30 +2,44 @@ import Vue from 'vue'
 import VueRouter from "vue-router" 
 
 
+
+
 Vue.use(VueRouter);
 
 const home = ()=> import ( "@/views/home/HomePage.vue")
 const login = ()=> import ("@/views/login/Login.vue")
 const blog = ()=> import ("@/views/blog/Blog.vue")
+const showCards = ()=> import ("@/views/showCard/ShowCard.vue")
 // 1.路由规则
 const routes = [
+
   {
-    //空或者/ 重定向到主页
-    path:'',
+    path:'/',
     redirect:'/home'
   },
   {
     path:'/login',
-    component: login
+    component: login,
+    hidden:true
   },
+ 
   {
-    path:'/home',
-    component: home
+    path:'/home' ,
+    component:home,
+    redirect:'/home/showCards',
+    children:[
+      {
+        path:'showCards',
+        component:showCards 
+      },
+      {
+        path:"blog",
+        component:blog
+      },
+    ]
   },
-  {
-    path:"/blog",
-    component:blog
-  }
+  
+ 
 ]
 //2.创建路由实例
 const  router = new VueRouter({

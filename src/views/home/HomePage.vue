@@ -14,11 +14,11 @@
 					router
 					@select="handleSelect"
 				>
-					<el-menu-item index="home">主页</el-menu-item>
+					<el-menu-item index="showCards">主页</el-menu-item>
 
 					<el-submenu index="login">
 						<template slot="title">下拉展示</template>
-						<el-menu-item index="login">测试跳转登录页(index为login路径)</el-menu-item>
+						<el-menu-item index="/login">测试跳转登录页(index为login路径)</el-menu-item>
 						<el-menu-item index="2-2" disabled>展示用</el-menu-item>
 					</el-submenu>
 
@@ -47,8 +47,10 @@
 		</div>
 
 		<MainArea  :sentence = sentence />
-
+					
 		<Footer></Footer>
+
+		
 	</div>
 	
  
@@ -63,12 +65,14 @@ import{ reqUserInfo,reqSentences  } from "@/api/index"
 import Weather from "@/components/common/Weather/Weather.vue";
 import Navbar from "@/components/common/NavBar/Navbar.vue";
 import MainArea from '@/views/home/mainArea/MainArea'
+
 import Footer from "@/components/common/Footer/Footer";
 
 export default {
 	name: "HomePage",
 	data() {
 		return {
+			
 			activeIndex: "home",
 			isShow:false,
 			userInfo:{
@@ -88,7 +92,8 @@ export default {
 		Navbar,
 		Footer,
 		Weather,
-		MainArea
+		MainArea,
+		
 	},
 	methods: {
 		handleSelect(key, keyPath) {
