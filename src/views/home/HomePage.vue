@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container"  >
 		<Navbar>
 			<img slot="left"  src="~@/assets/img/NavLogo.jpg"   alt="loading.." class="nav-logo"/>
 
@@ -8,10 +8,11 @@
 					:default-active="activeIndex"
 					class="el-menu-demo"
 					mode="horizontal"
-					background-color="#9c9c9c"
+					background-color="#7dab3b"
 					text-color="#fff"
 					active-text-color="#ffd04b"
 					router
+					
 					@select="handleSelect"
 				>
 					<el-menu-item index="showCards">主页</el-menu-item>
@@ -23,45 +24,37 @@
 					</el-submenu>
 
 					<el-menu-item index="blog">未完成Blog</el-menu-item>
-				</el-menu></span
-			>
+					<el-menu-item index="music">未完成Music</el-menu-item>
+				</el-menu>
+			 </span>
 
-			<div slot="right" class="user" >
+
+			<div slot="right" class="user" v-if="userInfo.username">
 				<span class="username">{{userInfo.username}}</span>
-				<img class="avatar" :src="userInfo.avatar" alt="@">		
+				<img class="avatar" :src="userInfo.avatar" alt="@">	
+				<i class="log-out" @click="logout">logout</i>
+			</div>
+
+			<div v-else  slot="right" class="username" >
+			   <router-link to="/login">请登录</router-link>
 			</div>
 		</Navbar>
 
-		<!-- 天气 -->
 		
-			<div class="weather-show"
-       @click="handleClick"
-			 @mouseover="handleEnter"
-			 @mouseleave="handleLeave"
-			 >
-			  <i class="weather-text" >天气预报</i>
-			 </div>
-		<div class="weather-warp" v-show="isShow">	
-
-			<Weather />
+		<div class="weather-warp"  >	
+			<Weather title="天气预报" position="right:50px"/>
 		</div>
 
-		<MainArea  :sentence = sentence />
+		<MainArea/>
 					
 		<Footer></Footer>
 
 		
 	</div>
-	
- 
-
-
-
-
 </template>
 
 <script>
-import{ reqUserInfo,reqSentences  } from "@/api/index"
+
 import Weather from "@/components/common/Weather/Weather.vue";
 import Navbar from "@/components/common/NavBar/Navbar.vue";
 import MainArea from '@/views/home/mainArea/MainArea'
@@ -73,19 +66,8 @@ export default {
 	data() {
 		return {
 			
-			activeIndex: "home",
-			isShow:false,
-			userInfo:{
-				id:'',
-				email:'',
-				avatar:"",
-				username:"",
-				data:''
-			},
-			sentence:{
-				from:'',
-				name:''
-			}
+			activeIndex: "showCards",
+			
 		};
 	},
 	components: {
@@ -98,53 +80,35 @@ export default {
 	methods: {
 		handleSelect(key, keyPath) {
 			//验证ui组件作用
-			console.log(key, keyPath);
+			// console.log(key, keyPath);
 		},
-   async	getUserInfo(){
-			let result = await reqUserInfo()
-		   if(result.code === 200){
-				this.userInfo = result.data
-			 }
-	
-		},
+   
 
-		async getSentences() {
-			let result = await reqSentences()
-				if(result.code === 200){
-					this.sentence = result.result
-				}
-		},
-		//控制天气开关
-		handleClick(e){
-				this.isShow = !this.isShow 
-				// ? 无法解绑?
-				// window.removeEventListener("mouseleave",this.handleLeave,true)
-				// e.target.removeEventListener("mouseleave",this.handleLeave)
-				// 	this.$off('mouseleave',this.handleLeave)
-					
-		},
-		handleEnter(){
-				this.isShow = true
-			
-		},
-		handleLeave(){
-			this.isShow = false
-	  
+		
+	
+		// logout
+		logout(){
+		 this.$store.commit('user/LOG_OUT')
+		 //成功后跳转登录
+		 this.$router.push('/login')
+		 
+		}
+	
+	},
+	computed:{
+		userInfo(){
+			return this.$store.state.user.userInfo
 		}
 	},
 	mounted(){
-		//1.模拟用户信息头像,随机生成句子
-		this.	getUserInfo(),
-		this.getSentences()
+		
 	}
 };
 </script>
 
 <style scoped>
 .container {
-	position: relative;
-	
-	/* background-color: skyblue; */
+	position: relative;	
 }
 
 
@@ -155,22 +119,26 @@ export default {
 
 .weather-warp {
 	position: absolute;
-	margin-top:50px;
-	right: 0;
+	margin-top: 20px;
+	right: 30px;
 	z-index: 2;
 }
 .user{
 	margin-right:  20px;
 	width: 100%;
 	height: 100%;
+
+	line-height: 64px;
 	display: flex;
-	vertical-align: middle;
+	
+	
 }
 .username{
 		
     margin-right: 20px;
 		color: rgb(78, 70, 70);
 		font-size: 14px;
+
 		font-weight: 700;
 		
 }
@@ -182,30 +150,19 @@ export default {
 	border-radius: 50%;
 	box-shadow: 0px 0px 5px #888888;
 }
+.log-out {
+	display: block;
+	height: 64px;
+	padding-left: 5px;
+}
+.log-out:hover {
+	cursor: pointer;
+	margin-top:-3px ;
+	
+	color:crimson;
+	transition: all linear 0.2s;
+}
 
-/* weather */
-.weather-show{
-	position: absolute;
-	right: 50px;
-  margin: auto;
-	border-radius: 50%;
-	height: 20px;
-	width: 20px;
-  border: 20px solid lightslategray;
-	box-shadow: 0 0 0 5px rgba(2, 238, 255, 0.2);
-}
-.weather-show:hover{
-	color: lightblue;
-	border: 20px solid lightgreen;
-	box-shadow: 0 0 0 5px rgba(25, 164, 174, 0.2);
-	transition: all  0.5s
-}
-.weather-text{
-	position: absolute;
-	right: 25px;
-	font-size: 12px;
-	width: 50px;
-}
 
 
 </style>

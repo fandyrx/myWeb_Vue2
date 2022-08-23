@@ -3,8 +3,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   
   lintOnSave:false,
-  devServer: {
-  
+  devServer: { 
     proxy: {
       "/api": {
         target: "https://api.apiopen.top/",
@@ -15,3 +14,5 @@ module.exports = defineConfig({
 
   
 })
+
+

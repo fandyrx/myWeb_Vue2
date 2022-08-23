@@ -2,13 +2,13 @@ import Vue from "vue"
 import Vuex from "vuex"
 Vue.use(Vuex)
 
-import login from "./login" 
-import user from "./user" 
 
+import user from "./user" 
+import music from "./music"
 const store = new Vuex.Store({
  modules:{
-  login,
-  user
+  user,
+  music
  }
 })
 

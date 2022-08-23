@@ -6,8 +6,8 @@
 				<span>{{ sentence.from }}</span>
 			</div>
 		</el-card>
-		
-		<transition name="fade-transform" mode="out-in">
+
+		<transition name="el-fade-in-linear" mode="out-in" appear>
       <router-view  />
     </transition>
 	</div>
@@ -15,21 +15,20 @@
 
 <script>
 
-
+import{ reqSentences } from "@/api/index"
 export default {
 	name: "MainArea",
-	props: {
-		sentence: {
-			type: Object,
-			default: {},
-		},
-	},
+	
 	data() {
 		return {
 			 key() {
       return this.$route.path
     	},
-			showSentence: this.sentence,
+			
+			sentence:{
+				from:'',
+				name:''
+			}
 		}
 	},
 	components: {
@@ -38,11 +37,18 @@ export default {
 	methods: {
 		getUserInfo() {
 			this.$store.dispatch("user/getUserInfo");
-		}
-   
+		},
+   async getSentences() {
+			
+			let result = await reqSentences()
+				if(result.code === 200){
+					this.sentence = result.result
+				}
+			
+		},
 	},
 	mounted() {
-	
+		this.getSentences()
 	},
 };
 </script>
@@ -52,8 +58,7 @@ export default {
 	height: 100%;
 }
 
-
-
+ 
 /* 下拉框 */
 .el-dropdown-link {
 	cursor: pointer;

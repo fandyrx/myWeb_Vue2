@@ -4,6 +4,7 @@
   "date": "@date()",
   "avatar": "@image('200x200','','#fff','avatar')",
   "ip": "@ip()",
-  "email": "@email()"
+  "email": "@email()",
+  "token":"666666"
 }
 

@@ -156,9 +156,10 @@ router.$addRoutes = (params) => {
 
 
 ## 4 首页修复 抖动,图片大小不一,出现空白区域  8.22
-4.1el-col 添加 margin-bottom 
- - el-row :{display:flex ,   flex-wrap: wrap;} column 自动分布,图片大小自动均一适应父盒子
+- 4.1el-col 添加 margin-bottom |
+  el-row :{display:flex ,   flex-wrap: wrap;} column 自动分布,图片大小自动均一适应父盒子
  - bug :hover margin-5px 时, 页面抖动.  bottom 补5px 页面抖动消失
-4.2图片初次展示 改动为随机获取
-4.3修复用户栏,天气组件展示方式
-4.4布局路由重整
+- 4.2图片初次展示 改动为随机获取
+- 4.3修复用户栏,天气组件展示方式
+- 4.4布局路由重整
+- 4.5登录 退出,本地持久化存储token

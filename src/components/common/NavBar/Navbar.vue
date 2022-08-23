@@ -1,8 +1,8 @@
 <template>
   <div class="nav-bar">
-      <div class="left"><slot name="left">左侧图标</slot></div>
-      <div class="middle"><slot name="middle" >分类</slot></div>
-      <div class="right"><slot name="right" >登录</slot></div>
+      <div class="left"><slot name="left"></slot></div>
+      <div class="middle"><slot name="middle" ></slot></div>
+      <div class="right"><slot name="right" ></slot></div>
  </div>
 </template>
 
@@ -23,8 +23,9 @@ export default {
 <style scoped>
   .nav-bar{
     height: 64px;
-    line-height: 64px;
+    line-height: 100%;
     display: flex;
+    justify-content: space-between;
     width: 100%;
     /* background-color: pink; */
   }

@@ -3,7 +3,7 @@
   appear
   name="animate__animated animate__bounce"
   enter-active-class="animate__fadeIn"
-  leave-active-class="animate__fadeOut"
+  leave-active-class="animate__zoomOut"
   >
     <div class="login-outer">
       <div class="login-box">
@@ -51,12 +51,12 @@ export default {
          rules: {
           name: [
              { required: true, message: '请输入账户'},
-               { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+               { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
            
           ],
           password: [
          { required: true, message: '请输入密码'},
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
           ]
         }
 		}
@@ -64,9 +64,13 @@ export default {
 	},
   methods:{
      submitForm(formName) {
+      
         this.$refs[formName].validate((valid) => {
             this.loading=true
+           
           if (valid) {
+            //1.验证成功 模拟发送请求用户信息头像
+		        this.$store.dispatch('user/getUserInfo',this.ruleForm)
             this.loading=false
             this.$router.replace("/home")
           } else {
@@ -76,6 +80,7 @@ export default {
           }
         });
       },
+
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
@@ -103,10 +108,7 @@ export default {
   margin: 140px auto;
   
 }
-.login {
-	
-	
-}
+
 .tips{
   padding:0  20%;
  
