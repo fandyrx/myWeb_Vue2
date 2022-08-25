@@ -106,13 +106,19 @@ export default {
     },
     //播放结束  
     ended(e){
-      //播放状态暂停
-      	// this.upDatePlay(false);
-       if(playInfo.length!== '' && playIndex == playInfo.length-1){
-        //最后一首歌,跳转到第一首
-          this.getMusicUrl(0)
+      //播放状态,动画暂停,切换播放按钮
+			
+      	this.upDatePlay(false);
+			
+				let num = this.playIndex
+       if(this.playInfo.length > 0 ){
+        //列表数目2个以上  判断当前是否为最后一个 则跳转到第一首,
+			 		this.playIndex == (this.playInfo.length-1)? this.getMusicUrl(0):this.getMusicUrl(num ++)
+         
        }else{
-          this.getMusicUrl(this.playIndex++)
+				
+        return
+					
        }
     },
 

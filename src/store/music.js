@@ -34,11 +34,10 @@ const mutations = {
     state.commend = commend
   },
   SET_MUSICURL(state,item){
-    
     state.playInfo = item
-
   },
   getMusicUrl(state,index){
+    console.log(index,'index获取');
     state.playIndex = index
   },
   upDatePlay(state,show){
