@@ -8,9 +8,10 @@
 		</el-card>
 
 		<transition name="el-fade-in-linear" mode="out-in" appear>
-      <router-view  />
+      <router-view />
     </transition>
 	</div>
+	
 </template>
 
 <script>
@@ -21,9 +22,7 @@ export default {
 	
 	data() {
 		return {
-			 key() {
-      return this.$route.path
-    	},
+		
 			
 			sentence:{
 				from:'',

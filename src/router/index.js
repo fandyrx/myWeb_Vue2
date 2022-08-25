@@ -4,14 +4,14 @@ import store from "@/store/index"
 
 
 
-
 Vue.use(VueRouter);
 
-const home = ()=> import ( "@/views/home/HomePage.vue")
-const login = ()=> import ("@/views/login/Login.vue")
-const blog = ()=> import ("@/views/blog/Blog.vue")
-const showCards = ()=> import ("@/views/showCard/ShowCard.vue")
-const music  = () => import ("@/views/music/Music.vue")
+const Home = ()=> import ( "@/views/home/HomePage.vue")
+const Login = ()=> import ("@/views/login/Login.vue")
+const Blog = ()=> import ("@/views/blog/Blog.vue")
+const ShowCards = ()=> import ("@/views/showCard/ShowCard.vue")
+const Music  = () => import ("@/views/music/Music.vue")
+const Detail = () => import ("@/views/music/songDetail/SongDetail.vue")
 // 1.路由规则
 const routes = [
 
@@ -21,27 +21,40 @@ const routes = [
   },
   {
     path:'/login',
-    component: login,
+    name:'login',
+    component: Login,
     hidden:true
   },
  
   {
     path:'/home' ,
-    component:home,
+    name:'home',
+    component:Home,
     redirect:'/home/showCards',
     children:[
       {
         path:'showCards',
-        component:showCards 
+        name:'showCards',
+        component:ShowCards 
       },
       {
         path:"blog",
-        component:blog
+        name:'blog',
+        component:Blog
       },
       {
         path:'music',
-        component: music
-      }
+        name:'music',
+        component: Music,
+        children:[
+          {
+            path:'detail',
+            name:'detail',
+            component:Detail
+          }
+        ]
+      },
+     
     ]
   },
   
@@ -69,6 +82,7 @@ router.beforeEach((to,from,next)=>{
   //已经登录
   if(token){
     if(to.path == "/login"){
+     
       next('/home')
     }else{
       if(name){

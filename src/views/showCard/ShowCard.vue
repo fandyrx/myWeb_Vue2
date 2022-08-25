@@ -31,7 +31,7 @@
 						<el-card
 					
              :body-style="{ padding: '0px'}">
-							<img :src="item.url" class="image" />
+							<img  v-lazy="item.url" class="image" />
 								<!-- 文本 -->
 							<div style="padding: 14px">
 
@@ -82,7 +82,6 @@ export default {
 				size: 10,
 			},
 
-      
       limit:10,    //每页数据
       total:0, //分页一共需要展示数据条数
 	    

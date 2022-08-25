@@ -5,7 +5,7 @@
           <i></i>
          <h3>{{title}}</h3>
     </div>
-
+   
       <div slot="middle" class="middle" >  
          <span v-for="item in List" :key="item.id">{{item.name}}</span>
        </div>
@@ -18,21 +18,22 @@
     </Navbar>
 
     <!-- show -->
+   
     <div class="show">
+       
       <ul>
-      
         <li v-for="item in Commend"  :key="item.id">
-
-        
-             <img :src="item.picUrl">
+            <router-link :to="{name:'detail',query:{id: item.id} }">  
+             <img v-lazy="item.picUrl">
              <div class="bottom">bottom</div>
          
-          <p> {{item.name}}</p>
-
+               <p> {{item.name}}</p>
+            </router-link>
         </li>
-
       </ul>
+      
     </div>
+
   </div>
 </template>
 

@@ -34,7 +34,7 @@ requests.interceptors.response.use((res)=>{
 
 //二.网易云音乐请求接口
 const requestM =  axios.create({
-  baseURL: config.host,
+  baseURL: "https://netease-cloud-music-7pc60ge42-fandyrx.vercel.app/",
   timeout: 5000,
 });
 

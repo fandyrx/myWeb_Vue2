@@ -1,8 +1,8 @@
 <template>
 		<el-carousel :interval="4000" type="card" height="200px" autoplay
     >
-			<el-carousel-item v-for="item in banner" :key="item.encodeId">
-				          <img :src="item.imageUrl" alt="#">
+			<el-carousel-item v-for="(item,index) in banner" :key="index">
+				          <img v-lazy="item.imageUrl" alt="#">
 			</el-carousel-item>
 		</el-carousel>
 </template>
@@ -18,7 +18,9 @@ export default {
 	},
 	components: {},
 	methods: {},
-	mounted() {},
+	mounted() { 
+    
+  },
   computed:{
     ...mapState('music',["banner"])
   }
@@ -59,7 +61,7 @@ overflow-y: hidden;
     transform: unset;
     text-align: center;
     right: 30%;
-    top: 50%;
+    bottom:0;
 
 }
  /* 默认按钮的颜色大小等 */

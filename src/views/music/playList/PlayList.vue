@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+       放到Aside,画板/播放列表
  </div>
 </template>
 

@@ -15,8 +15,8 @@
       
 			
       
-			<el-form-item label="密码" prop="password" class="item">
-				<el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+			<el-form-item label="密码" prop="password" class="item"  @keydown.enter.native="submitForm('ruleForm')">
+				<el-input type="password" v-model="ruleForm.password" autocomplete="off" ></el-input>
 			</el-form-item>
 		
 
@@ -26,7 +26,7 @@
 			</el-form-item>
 
       <div class="tips">
-        Tips:随意输入 3-5位数字/字母
+        Tips:随意输入 3-10位数字/字母
       </div>
 		</el-form>
       </div>
