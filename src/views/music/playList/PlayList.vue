@@ -1,22 +1,18 @@
 <template>
   <div>
-      blog area
-          swiper for article pic?
-      <Article/>
+       放到Aside,画板/播放列表
  </div>
 </template>
 
 <script>
-import Article from '@/views/blog/article/Article'
 export default {
-  name: 'Blog',
+  name: 'PlayList',
   data() { 
     return {
 
     }
   },
   components:{
-    Article
   },
   methods:{
 
@@ -28,5 +24,5 @@ export default {
 </script>
 
 <style scoped>
- 
+
 </style>
