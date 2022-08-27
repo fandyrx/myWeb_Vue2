@@ -188,3 +188,26 @@ router.$addRoutes = (params) => {
    - 2.播放VIP报错,第一首,最后一首播放自动切换未验证
    - 3.播放器拖拽,找组件或者自己写原生/offsetWidth获取,计算百分比,控制数据再次输入audio?
    - 4.audio 原生事件比较方便,先这样
+   - 5.判断停止播放跳转,奇怪的bug,同样代码,打了两三次,突然能进判断了,浏览器没有更新?调了2个小时
+  ## 8.增加音量控制,修复自动切换bug
+  ## 9.vercel 代理挂了
+  - 1.服务器安装node wget https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz
+  - 2.解压tar -xvf node-v16.16.0-linux-x64.tar.xz -C /usr/local/lib
+  - 3.进入 /usr/local/lib 下重命名 node-v16.16.0-linux-x64 为 node
+  - 4.设置环境变量：sudo vim /etc/profile 文件最后:
+  ```
+  export NODEJS_HOME=/usr/local/lib/node
+  export PATH=$NODEJS_HOME/bin:$PATH
+  ```
+  - 5.退出后source /etc/profile  使配置生效
+  - 6.node -v 检验版本
+  - 7.xhttp后台项目导入 /home/projects/node  ,安装依赖 (npm install -g cnpm --registry=https://registry.npm.taobao.org 淘宝源,进入目录cpnm i )
+  - 8.腾讯云服务器需要开放防火墙 端口3000(根据后台开放端口决定)
+   
+  ```
+  9.npm i pm2 -g  
+  //进入要启动的项目下
+  pm2 start app.js --name 后台项目文件夹名
+  ```
+  - 10. 启动成功
+  - 11. api 请求地址更改为服务器地址加开放端口

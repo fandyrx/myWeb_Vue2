@@ -33,16 +33,15 @@ const mutations = {
   GET_COMMEND(state,commend){
     state.commend = commend
   },
-  SET_MUSICURL(state,item){
-    
+  SET_MUSICITEM(state,item){
     state.playInfo = item
-
   },
   getMusicUrl(state,index){
+    // console.log(index,'index获取');
     state.playIndex = index
   },
-  upDatePlay(state,show){
-      state.isPlay = show
+  upDatePlay(state,isPlay){
+      state.isPlay = isPlay
   },
   CHANGE_INDEX(state,num){
     console.log(num);
@@ -56,6 +55,7 @@ const actions = {
   //1.轮播图
  async getBanner({commit},type){
     let result = await reqBanner(type)
+    console.log(result);
     if(result.code == 200){
      
       commit("GET_BANNER",result.banners)
@@ -86,8 +86,8 @@ const actions = {
   },
 
   //4.播放音乐地址 获取不了? 直接mutations audio 赋值ID 可以
-  async getMusicUrl ({commit},index){
-    commit("SET_MUSICURL",index)
+  async getMusicItem ({commit},item){
+    commit("SET_MUSICITEM",item)
       
   },
   

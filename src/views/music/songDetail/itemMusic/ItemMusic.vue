@@ -48,9 +48,9 @@ export default {
 	methods: {
 		toPlay(index) {
 			this.getMusicUrl(index);
-			this.SET_MUSICURL(this.itemList);
+			this.SET_MUSICITEM(this.itemList);
 		},
-		...mapMutations("music", ["SET_MUSICURL", "getMusicUrl"]),
+		...mapMutations("music", ["SET_MUSICITEM", "getMusicUrl"]),
 	},
 	mounted() {},
 };

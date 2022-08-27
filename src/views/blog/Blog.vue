@@ -2,6 +2,7 @@
   <div>
       blog area
           swiper for article pic?
+          渐变背景
       <Article/>
  </div>
 </template>
