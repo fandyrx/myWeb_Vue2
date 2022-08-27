@@ -10,8 +10,10 @@ module.exports = defineConfig({
       "/api": {
         target: "https://api.apiopen.top/",
         // pathRewrite: {"^/api" : ""}
-      }
+      },
+    
     }
+    
   }
 
   

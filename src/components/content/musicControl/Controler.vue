@@ -42,10 +42,20 @@
 		</div>
 
 		<div class="right">
-			<svg class="icon" aria-hidden="true">
-				<use xlink:href="#icon-voice"></use>
-			</svg>
-			<i>列表</i>
+			<div class="voice-control">
+				<el-slider
+			class="slider"
+      v-model="voice"
+      vertical
+			v-show="voiceShow"
+      >
+    	</el-slider>
+				<svg class="icon " aria-hidden="true"   @click="voiceShow = !voiceShow">
+					<use xlink:href="#icon-voice"></use>
+				</svg>
+			</div>
+
+			<span>列表</span>
 		</div>
 
 		<audio ref="audio" 
@@ -66,7 +76,9 @@ export default {
 		return {
       currentTime:"00:00",
       durationTime:'00:00',
-      currentWidth: 0
+      currentWidth: 0,
+			voice:50,
+			voiceShow:false
     };
 	},
 	components: {},
@@ -107,20 +119,12 @@ export default {
     //播放结束  
     ended(e){
       //播放状态,动画暂停,切换播放按钮
-			
       	this.upDatePlay(false);
-			
-				let num = this.playIndex
-       if(this.playInfo.length > 0 ){
-        //列表数目2个以上  判断当前是否为最后一个 则跳转到第一首,
-			 		this.playIndex == (this.playInfo.length-1)? this.getMusicUrl(0):this.getMusicUrl(num ++)
-         
-       }else{
-				
-        return
-					
-       }
+				//切换下一首
+				this.change(1)
+      
     },
+		
 
 		...mapMutations("music", ["upDatePlay", "getMusicUrl"]),
 	},
@@ -131,6 +135,7 @@ export default {
 		...mapState("music", ["playInfo", "isPlay", "playIndex"]),
 	},
 	watch: {
+		
 		playIndex: function () {
 			this.$refs.audio.autoplay = true;
 			if (this.$refs.audio.paused) {
@@ -144,6 +149,11 @@ export default {
 				this.upDatePlay(true);
 			}
 		},
+		voice:function (){
+		
+			this.$refs.audio.volume = this.voice
+				this.$refs.audio.muted=false;
+		}
 	},
   beforeDestroy(){
      this.upDatePlay(false);
@@ -249,4 +259,30 @@ export default {
 		}
 	}
 }
+//音量 列表区
+.right{
+	display: flex;
+	padding: 10px;
+	.voice-control{
+		position: relative;
+		svg{
+			font-size: 30px;
+		}
+
+		.slider{
+			background-color: rgba(210, 220, 217, 0.844);
+			padding: 10px 0 10px ;
+			border-radius: 10%;
+			position: absolute;
+			height:100px;
+			top: -115px;
+			right: -2px;
+		}
+	}
+	span{
+		width: 40px;
+	}
+}
+
+		
 </style>
