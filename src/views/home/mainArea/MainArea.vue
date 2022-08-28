@@ -10,12 +10,16 @@
 		<transition name="el-fade-in-linear" mode="out-in" appear>
       <router-view />
     </transition>
+		 <!-- 为了音乐全局使用  -->
+   		<Controler  v-show="$route.meta.show"/>
+						   
+
 	</div>
 	
 </template>
 
 <script>
-
+import Controler from '@/components/content/musicControl/Controler.vue'
 import{ reqSentences } from "@/api/index"
 export default {
 	name: "MainArea",
@@ -31,7 +35,7 @@ export default {
 		}
 	},
 	components: {
-		
+		 Controler
 	},
 	methods: {
 		getUserInfo() {

@@ -21,6 +21,8 @@ const state = {
   playIndex:0,
   isPlay:false, //播放状态
 
+  userPlayList:[]//左侧的播放列表 持久化存储，后端数据查看
+  
   
 }
 const mutations = {
@@ -44,7 +46,6 @@ const mutations = {
       state.isPlay = isPlay
   },
   CHANGE_INDEX(state,num){
-    console.log(num);
     state.playIndex = num  
   }
   
@@ -55,7 +56,7 @@ const actions = {
   //1.轮播图
  async getBanner({commit},type){
     let result = await reqBanner(type)
-    console.log(result);
+   
     if(result.code == 200){
      
       commit("GET_BANNER",result.banners)

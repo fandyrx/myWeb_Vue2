@@ -43,7 +43,7 @@ export const reqMusicItem = (id)=> requestM({
  url:"/playlist/track/all",
  params:{
   id,
-  limit:20
+  
   
  }
 })

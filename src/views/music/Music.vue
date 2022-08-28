@@ -2,8 +2,10 @@
 	<div>
 		
 			<el-container>
-				<el-aside >Aside
-					歌单拖拽,添加播放列表?offset  draggable="true" 
+				<el-aside >
+					Aside
+					<PlayList />
+				
 				</el-aside>
 
 				<el-container>
@@ -11,14 +13,16 @@
 					<el-main >
 						<Banner v-show="isShow"/>
 						<Commend v-show="isShow" :List="tags" :Commend="commend" title="热门推荐"/>
-						<transition name="fade" mode="out-in" appear>
+						
+						<transition name="fade" mode="out-in" appear>	
 								 <router-view   v-show="!isShow" :key="key" /> 
 						 </transition>
 					</el-main>
 
-					<el-footer>
-						<Controler />
-					</el-footer>
+					<!-- <el-footer>	
+							<Controler />
+					</el-footer> -->
+
 				</el-container>
 
 			</el-container>
@@ -28,9 +32,9 @@
 
 <script>
  import Banner from '@/views/music/banner/Banner'
- 
+ import PlayList from '@/views/music/playList/PlayList'
  import Commend from "@/components/content/commend/Commend.vue"
- import Controler from '@/components/content/musicControl/Controler.vue'
+
  import {mapState} from "vuex"
 export default {
 	name: "Music",
@@ -44,7 +48,7 @@ export default {
 	components: {
 		Banner,
 		Commend,
-		Controler
+		PlayList 
 	},
 	methods: {},
 	beforeCreate(){
@@ -55,7 +59,7 @@ export default {
 	},
 
 	mounted() {
-
+		
 
 	},
 	computed:{
@@ -70,8 +74,7 @@ export default {
 
 
 
-.el-header,
-.el-footer {
+.el-header{
   
 	background-color: #b3c0d1;
 	color: #333;
@@ -80,9 +83,7 @@ export default {
 }
 .el-aside {
 	background-color: #d3dce6;
-	color: #333;
-	
-  
+	color: #333;  
 }
 
 .el-main {

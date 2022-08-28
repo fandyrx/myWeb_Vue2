@@ -4,11 +4,24 @@
 			<img :class="{ discAnimation: isPlay }" v-lazy="playInfo[playIndex].al.picUrl" alt="歌曲封面" />
 
 			<div class="auth">
-				<span>{{ playInfo[playIndex].name }}</span>
 
-				<span class="authName" v-for="(singer, index) in playInfo[playIndex].ar" :key="index">
-					{{ singer.name }}
-				</span>
+				
+				
+						<div :class="{move:isPlay}">
+							<span :class="{textRoll:isPlay}">
+									{{ playInfo[playIndex].name }}
+							</span>
+						</div>
+				
+					<div  :class="{'marqueeWrap':true,move:isPlay}"> 
+						 <div :class="{'singer':true,textRoll:isPlay}">
+								<span   v-for="(singer, index) in playInfo[playIndex].ar" :key="index">
+									{{ singer.name }}
+								</span>		
+					 </div>
+					
+				</div>
+				
 			</div>
 
 			<svg class="icon" aria-hidden="true" @click="change(-1)">
@@ -35,7 +48,8 @@
            <div  class="audio-circle" ></div>
         </div>	
 			</div>
-      <div>
+
+      <div class="play-time">
         <span>{{durationTime}}/</span>
         <span>{{currentTime}}</span>
       </div>
@@ -77,7 +91,7 @@ export default {
       currentTime:"00:00",
       durationTime:'00:00',
       currentWidth: 0,
-			voice:50,
+			voice:30,
 			voiceShow:false
     };
 	},
@@ -120,43 +134,52 @@ export default {
     ended(e){
       //播放状态,动画暂停,切换播放按钮
       	this.upDatePlay(false);
+				//重置播放条
+				this.currentWidth = 0
+				this.currentTime = "00:00"
 				//切换下一首
 				this.change(1)
-      
+			
+				
+			
+				
     },
 		
 
 		...mapMutations("music", ["upDatePlay", "getMusicUrl"]),
 	},
 	mounted() {
-   
+		//初始化音量 30
+		this.$refs.audio.volume = this.voice / 100
+	
+		
   },
+
 	computed: {
 		...mapState("music", ["playInfo", "isPlay", "playIndex"]),
 	},
 	watch: {
-		
 		playIndex: function () {
 			this.$refs.audio.autoplay = true;
 			if (this.$refs.audio.paused) {
 				this.upDatePlay(true);
 			}
 		},
-		playInfo: function () {
-			
+		playInfo: function () {	
 			if (!this.isPlay) {
 				this.$refs.audio.autoplay = true;
 				this.upDatePlay(true);
 			}
 		},
 		voice:function (){
-		
-			this.$refs.audio.volume = this.voice
+			//声量控制范围0-1
+			this.$refs.audio.volume = this.voice / 100
 				this.$refs.audio.muted=false;
 		}
 	},
   beforeDestroy(){
      this.upDatePlay(false);
+		
   }
 };
 </script>
@@ -167,10 +190,16 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background-color: #b3c0d1;
+	color: #333;
+
+	
 
 	.left {
 		display: flex;
 		align-items: center;
+	
+			
 		.auth {
 			width: 100px;
 			margin: 10px;
@@ -179,11 +208,22 @@ export default {
 			text-align: left;
 			font-size: 14px;
 
+			word-break: break-all;
+			white-space: nowrap;
+			overflow: hidden;	
+		
+    
 			span {
 				padding-top: 5px;
 			}
-      .authName{
+      .marqueeWrap{
+					display: flex;
 
+
+					.singer{
+						padding-left:5px;
+					
+					}
       }
 		}
 		img {
@@ -195,11 +235,45 @@ export default {
 	}
 }
 
+
+
+.move{
+	animation: marqueeTransform 10s linear infinite;
+}
+
+.textRoll{
+		animation: marqueeTransText 10s linear infinite;
+}
+
+// 文本移动
+@keyframes marqueeTransText {
+	0% {
+		transform: translate(0, 0);
+	}
+	
+	100% {
+		transform: translate(-100%, 0);
+	}
+	
+}
+//文本包裹容器移动
+@keyframes marqueeTransform {
+	0% {
+		transform: translate(100%, 0);
+	}
+	
+	100% {
+		transform: translate(0, 0);
+	}
+	
+}
+
 .icon {
 	position: relative;
 	top: -10%;
 	font-size: 40px;
 }
+
 
 //播放类名
 .discAnimation {
@@ -227,8 +301,8 @@ export default {
 
 .middle {
 	width: 100%;
-	height: 100%;
-	line-height: 100%;
+	
+	
 	display: flex;
 	//进度条
 	.barControl {
@@ -236,6 +310,7 @@ export default {
 	  width: 100%;
 		height: 4px;
 		background-color: rgba(0, 0, 0, 0.4);
+		
 		margin: auto;
 		//控制点   
 		.audio-circle {
@@ -257,6 +332,12 @@ export default {
 			height: 4px;
 			background-color: red;
 		}
+	}
+	//播放时间
+	.play-time{
+			padding: 0 5px;
+			display: flex;
+			justify-items: center;
 	}
 }
 //音量 列表区

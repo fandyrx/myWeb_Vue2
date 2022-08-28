@@ -43,7 +43,7 @@ export default {
 
              //获取歌单歌曲
              let result = await reqMusicItem (id)
-               console.log(result);
+               
               if(result.code == 200){       
                 this.songList = result.songs
                 //数据到达再展示组件 ,加个转场/加载条?

@@ -13,8 +13,13 @@ const ShowCards = ()=> import ("@/views/showCard/ShowCard.vue")
 const Music  = () => import ("@/views/music/Music.vue")
 const Detail = () => import ("@/views/music/songDetail/SongDetail.vue")
 // 1.路由规则
-const routes = [
 
+const routes = [
+ 
+  {
+    path:'/test',
+    component:()=>import ("@/test/test.vue")
+  },
   {
     path:'/',
     redirect:'/login'
@@ -50,9 +55,11 @@ const routes = [
           {
             path:'detail',
             name:'detail',
-            component:Detail
+            component:Detail,
+            meta:{show:true}
           }
-        ]
+        ],
+        meta:{show:true}
       },
      
     ]

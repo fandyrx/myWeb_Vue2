@@ -20,17 +20,24 @@
     <!-- show -->
    
     <div class="show">
-       
+      
       <ul>
-        <li v-for="item in Commend"  :key="item.id">
+          
+             <!-- draggable="true" :id="item.id"  @dragstart="drag" 原生 -->
+             
+                 <li v-for="item in Commend"  :key="item.id" >
             <router-link :to="{name:'detail',query:{id: item.id} }">  
              <img v-lazy="item.picUrl">
              <div class="bottom">bottom</div>
          
                <p> {{item.name}}</p>
             </router-link>
-        </li>
+            
+                 </li>
+            
       </ul>
+       
+     
       
     </div>
 
@@ -39,6 +46,7 @@
 
 <script>
 import Navbar from '@/components/common/NavBar/Navbar'
+import draggable from "vuedraggable"
 export default {
   name: 'Commend',
   props:{
@@ -61,10 +69,13 @@ export default {
     }
   },
   components:{
-    Navbar
+    Navbar,
+    draggable
   },
   methods:{
-
+   start(e){
+    console.log(e);
+   }
   },
   mounted() {
      

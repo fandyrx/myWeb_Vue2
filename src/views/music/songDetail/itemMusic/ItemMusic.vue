@@ -8,9 +8,9 @@
 			<div slot="right">收藏图标</div>
 		</NavBar>
 
-		<div class="detail" v-for="(item, index) in itemList" :key="item.id">
+		<div class="detail" :data-index="index" v-for="(item, index) in itemList" :key="item.id"   draggable="true" :id="item.id" @dragstart="drag" >
 		  	<span>{{ index + 1 }}</span>
-
+               <!-- 跨组件如何拖拽整个 -->
 			<div class="aut" @click="toPlay(index)">
 				<img v-lazy="item.al.picUrl" alt="#" />
 				<div class="songInfo">
@@ -50,9 +50,22 @@ export default {
 			this.getMusicUrl(index);
 			this.SET_MUSICITEM(this.itemList);
 		},
+		drag(e){
+			//调试用
+			// console.log(e.target.id);
+			e.dataTransfer.setData('text',e.target.id)
+		},
 		...mapMutations("music", ["SET_MUSICITEM", "getMusicUrl"]),
 	},
 	mounted() {},
+	watch:{
+		itemList(){
+			//为了侧边一直有数据，但是，不同歌单呢？ 
+			// 需要后端数据 维护 
+			this.SET_MUSICITEM(this.itemList);
+		}
+			
+	}
 };
 </script>
 

@@ -8,6 +8,7 @@ import moment from 'moment';
 import VueLazyload from 'vue-lazyload'
 //懒加载图片
 import sea from "@/assets/img/sea.jpg"
+import vuedraggable from "vuedraggable"
  
 Vue.config.productionTip = false
 //用户数据mock
@@ -18,6 +19,7 @@ import store from "./store/index"
 Vue.use(less)
 Vue.use(moment)
 Vue.use(ElementUI);
+Vue.use(vuedraggable)
 //懒加载配置
 Vue.use(VueLazyload,{
   loading:sea

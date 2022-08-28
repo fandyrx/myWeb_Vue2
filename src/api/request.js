@@ -14,7 +14,6 @@ const requests = axios.create({
 requests.interceptors.request.use((config)=>{
   //config:配置对象 内含headers
       
-
  
     return config
 })
@@ -35,7 +34,7 @@ requests.interceptors.response.use((res)=>{
 //二.网易云音乐请求接口
 const requestM =  axios.create({
 
-  baseURL: "http://101.35.247.114:3000/",
+  baseURL: config.host,
   timeout: 5000,
 });
 
