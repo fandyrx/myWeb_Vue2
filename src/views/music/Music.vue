@@ -3,7 +3,7 @@
 		
 			<el-container>
 				<el-aside >
-					Aside
+				Song 
 					<PlayList />
 				
 				</el-aside>
@@ -19,9 +19,7 @@
 						 </transition>
 					</el-main>
 
-					<!-- <el-footer>	
-							<Controler />
-					</el-footer> -->
+					
 
 				</el-container>
 
