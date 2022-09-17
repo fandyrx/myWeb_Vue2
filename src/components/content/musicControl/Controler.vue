@@ -4,9 +4,6 @@
 			<img :class="{ discAnimation: isPlay }" v-lazy="playInfo[playIndex].al.picUrl" alt="歌曲封面" />
 
 			<div class="auth">
-
-				
-				
 						<div :class="{move:isPlay}">
 							<span :class="{textRoll:isPlay}">
 									{{ playInfo[playIndex].name }}
@@ -67,9 +64,11 @@
 				<svg class="icon " aria-hidden="true"   @click="voiceShow = !voiceShow">
 					<use xlink:href="#icon-voice"></use>
 				</svg>
-			</div>
+		
+		</div>
 
-			<span>列表</span>
+			
+		
 		</div>
 
 		<audio ref="audio" 
@@ -201,15 +200,16 @@ export default {
 	
 			
 		.auth {
-			width: 100px;
+			width: (20/100)vw;
 			margin: 10px;
 			display: flex;
 			flex-direction: column;
 			text-align: left;
 			font-size: 14px;
-
+			
 			word-break: break-all;
 			white-space: nowrap;
+			text-overflow: ellipsis;
 			overflow: hidden;	
 		
     
@@ -227,7 +227,7 @@ export default {
       }
 		}
 		img {
-			width: 60px;
+			width: 50px;
 			height: 100%;
 			border-radius: 50%;
 			vertical-align: bottom;
@@ -272,6 +272,7 @@ export default {
 	position: relative;
 	top: -10%;
 	font-size: 40px;
+	cursor: pointer;
 }
 
 
@@ -300,9 +301,7 @@ export default {
 /* 播放进度条 */
 
 .middle {
-	width: 100%;
-	
-	
+	flex: 1;
 	display: flex;
 	//进度条
 	.barControl {
@@ -340,10 +339,14 @@ export default {
 			justify-items: center;
 	}
 }
+
 //音量 列表区
 .right{
+	width: 50px;
 	display: flex;
-	padding: 10px;
+	margin: 0 10px  0;
+	
+	
 	.voice-control{
 		position: relative;
 		svg{
@@ -360,9 +363,7 @@ export default {
 			right: -2px;
 		}
 	}
-	span{
-		width: 40px;
-	}
+
 }
 
 		

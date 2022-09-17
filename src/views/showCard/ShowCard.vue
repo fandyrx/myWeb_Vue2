@@ -80,6 +80,8 @@
 <script>
 import { reqHomeImages } from "@/api/index";
 import moment from 'moment';
+moment.suppressDeprecationWarnings = true ; // 直接关闭提示
+
 export default {
   name: 'ShowCard',
   data() { 
@@ -95,7 +97,7 @@ export default {
 
       limit:10,    //每页数据
       total:0, //分页一共需要展示数据条数
-			dialogVisible: true,
+			dialogVisible: false,
 			picBig:''
 	    
     }
@@ -137,12 +139,11 @@ export default {
     },
 		//dialog
 		showBig(item){
-			console.log(item.url);
+			
 			this.picBig = item.url
 			this.dialogVisible = true;
 		},
 		randNum(min,max){
-				let random = Math.random()    
 				
 				min = Math.ceil(min);
 				max = Math.floor(max);
@@ -153,10 +154,11 @@ export default {
   mounted() {
       	this.changeType("random")
   },
-	computed:{
+	computed:{	
 			currentDate:()=>{	
+				
 				moment.locale("zh-cn");         
-				return moment(new Date()).format('LLL');
+				return moment().format("LLL");
 			} 
 	}
  }
@@ -185,6 +187,7 @@ export default {
 
 .image {
 	width: 100%;
+
   
 	display: block;
 }

@@ -1,6 +1,8 @@
 <template>
   <div>
-       <div id="div1" ref="playList" @drop="drop" @dragover="allowDrop" @click="toPlay"></div>   
+       <div class="detail" id="div1" ref="playList" @drop="drop" @dragover="allowDrop" @click="toPlay">
+      
+      </div>   
  </div>
 </template>
 
@@ -62,10 +64,39 @@ export default {
  #div1{
   border: 1px solid black;
   padding: 10px;
-  width: 100%;
-  height: 500px;
+  width: 20vw;
+  height: 100vh;
+   
   display: flex;
   flex-direction: column;
  }
+ 
+
+//拖拽歌曲的样式
+.detail {
+	margin-bottom: 10px;
+	font-size: 14px;
+	display: flex;
+
+	span {
+		width: 20px;
+		text-align: center;
+		line-height: 40px;
+	}
+	img {
+		width: 50px;
+		height: 50px;
+	}
+	.aut {
+		display: flex;
+		margin-left: 5px;
+		.songInfo {
+			margin-left: 15px;
+			line-height: 100%;
+			display: flex;
+			flex-direction: column;
+		}
+	}
+}
 
 </style>

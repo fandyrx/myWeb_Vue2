@@ -7,28 +7,32 @@
   >
     <div class="login-outer">
       <div class="login-box">
-          	<el-form  class="login" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"  status-icon >
+        <el-form  class="login" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"  status-icon >
 
-			<el-form-item label="账户" prop="name" class="item" >
-				<el-input type="text" v-model="ruleForm.name" autocomplete="off"></el-input>
-			</el-form-item>
-      
+            <el-form-item label="账户" prop="name" class="item" >
+              <el-input type="text" v-model="ruleForm.name" autocomplete="off"></el-input>
+            </el-form-item>
+            
 			
-      
-			<el-form-item label="密码" prop="password" class="item"  @keydown.enter.native="submitForm('ruleForm')">
-				<el-input type="password" v-model="ruleForm.password" autocomplete="off" ></el-input>
-			</el-form-item>
-		
+            
+            <el-form-item label="密码" prop="password" class="item"  @keydown.enter.native="submitForm('ruleForm')">
+              <el-input type="password" v-model="ruleForm.password" autocomplete="off" ></el-input>
+            </el-form-item>
+          
 
-			<el-form-item>
-				<el-button type="primary" @click="submitForm('ruleForm')" :loading="loading">提交</el-button>
-				<el-button @click="resetForm('ruleForm')">重置</el-button>
-			</el-form-item>
+            <el-form-item>
+              <div class="tips">
+                Tips:随意输入 3-10位数字/字母
+             </div>
+             <div class="login-button">
+               <el-button type="primary" @click="submitForm('ruleForm')" :loading="loading">提交</el-button>
+                <el-button @click="resetForm('ruleForm')">重置</el-button>
+             </div>
+             
+            </el-form-item>
 
-      <div class="tips">
-        Tips:随意输入 3-10位数字/字母
-      </div>
-		</el-form>
+            
+		    </el-form>
       </div>
 	
 	</div>
@@ -97,7 +101,7 @@ export default {
 	width : 100%;
 	height : 100%;
 
-	background-image: url(@/assets/img/logo.jpg);
+	background-image: url(@/assets/img/pexels-pixabay-462024.jpg);
 	background-size: 100% 100%;
 }
 .login-box{
@@ -109,13 +113,27 @@ export default {
   
 }
 
+.item{
+  padding: 0 20px;
+  margin-left: -20px;
+
+}
+.login-button {
+
+ display: flex;
+ justify-content: space-evenly;
+}
+
 .tips{
-  padding:0  20%;
+  
+  color: rgba(4, 27, 44, 0.484);
+  font-weight: 700;
+  font-size: 12px;
  
 }
 
 /deep/ .item .el-form-item__label{
-    color:red;
+    color:rgb(135, 103, 57);
   }
 
 

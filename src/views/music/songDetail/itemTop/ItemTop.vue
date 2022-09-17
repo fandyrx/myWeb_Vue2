@@ -2,8 +2,8 @@
 	<div class="container">
 		<div class="header">
 			<Navbar>
-				<div @click="back" slot="left">后退</div>
-				<div slot="middle">歌单名?</div>
+				<div class="back" slot="left" @click="back" >后退</div>
+				
 				<div slot="right">更多</div>
 			</Navbar>
 		</div>
@@ -55,6 +55,8 @@ export default {
 	methods: {
 		back() {
 			this.$router.go(-1);
+			//数据切换 控制器也需要状态改变,否则后面BUG,直接修改监控不到?
+			this.$store.state.music.isShow = true;
 		},
 	},
 };
@@ -63,7 +65,10 @@ export default {
 <style lang="less" scoped>
 .header {
 	width: 100%;
-	height: 20px;
+	// height: 20px;
+	.back{
+		cursor: pointer;
+	}
 }
 
 .title {

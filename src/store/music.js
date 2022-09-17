@@ -1,10 +1,11 @@
-import {reqBanner,reqCommend,reqPlayList,reqMusicUrl} from "@/api/index.js"
+import {reqBanner,reqCommend,reqPlayTags } from "@/api/index.js"
 
 
 const state = {
   banner:[],
   commend:[],//推荐歌单
   tags:[], //分类标签
+ 
   isShow: true, //跳转详情页,控制其他组件是否展示
   playInfo:[{
     al:{
@@ -47,6 +48,11 @@ const mutations = {
   },
   CHANGE_INDEX(state,num){
     state.playIndex = num  
+  },
+  CHANGE_IsShow(state,boolean){
+    //歌单退出,切换展示
+    state.isShow = boolean
+    
   }
   
  
@@ -68,17 +74,18 @@ const actions = {
   async getCommend ({commit}){
       let res  = await reqCommend()
       if(res.code == 200){
+       
        commit("GET_COMMEND",res.result)
       }else{
         return Promise.reject(new Error("fail"))
       }
   },
-//3.推荐分类
+//3.热门分类 标签
   async getCategoryList ({commit}) {
     
-     let res = await reqPlayList()
-      
-    if(res.code == 200){
+     let res = await reqPlayTags()
+         
+    if(res.code == 200){  
      let tags =  res.tags.slice(0,5)
      commit("GET_CARLIST",tags)
     }else{
@@ -90,7 +97,9 @@ const actions = {
   async getMusicItem ({commit},item){
     commit("SET_MUSICITEM",item)
       
-  },
+  }
+ 
+  
   
 
 }

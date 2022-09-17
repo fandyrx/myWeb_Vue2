@@ -1,22 +1,18 @@
 <template>
-  <div>
-      <Article/>
+  <div class="hot-singers">
+    热门歌手
  </div>
 </template>
 
 <script>
-
-import Article from '@/views/blog/article/Article'
 export default {
-  name: 'Blog',
+  name: 'HotSinger',
   data() { 
     return {
-        
+
     }
   },
   components:{
-    Article,
-    
   },
   methods:{
 
@@ -28,5 +24,7 @@ export default {
 </script>
 
 <style scoped>
- 
+.hot-singers{
+  width: 250px;
+}
 </style>

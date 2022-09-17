@@ -8,10 +8,10 @@
 			<div slot="right">收藏图标</div>
 		</NavBar>
 
-		<div class="detail" :data-index="index" v-for="(item, index) in itemList" :key="item.id"   draggable="true" :id="item.id" @dragstart="drag" >
+		<div class="detail"    v-for="(item, index) in itemList" :key="item.id"  >
 		  	<span>{{ index + 1 }}</span>
                <!-- 跨组件如何拖拽整个 -->
-			<div class="aut" @click="toPlay(index)">
+			<div class="aut" @click="toPlay(index)" :data-index="index" draggable="true" :id="item.id" @dragstart="drag" >
 				<img v-lazy="item.al.picUrl" alt="#" />
 				<div class="songInfo">
 					<p>{{ item.name }}</p>
@@ -80,6 +80,7 @@ export default {
 	margin-bottom: 10px;
 	font-size: 14px;
 	display: flex;
+	
 
 	span {
 		width: 20px;
@@ -91,6 +92,7 @@ export default {
 		height: 50px;
 	}
 	.aut {
+		cursor: pointer;
 		display: flex;
 		margin-left: 5px;
 		.songInfo {
@@ -98,6 +100,10 @@ export default {
 			line-height: 100%;
 			display: flex;
 			flex-direction: column;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
 		}
 	}
 }
