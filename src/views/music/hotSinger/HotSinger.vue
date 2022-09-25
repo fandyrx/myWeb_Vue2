@@ -1,5 +1,5 @@
 <template>
-  <div class="hot-singers">
+  <div class="hotS-wrapper">
     热门歌手
  </div>
 </template>
@@ -7,24 +7,14 @@
 <script>
 export default {
   name: 'HotSinger',
-  data() { 
-    return {
-
-    }
-  },
-  components:{
-  },
-  methods:{
-
-  },
-  mounted() {
-
-  },
+ 
  }
 </script>
 
 <style scoped>
-.hot-singers{
+.hotS-wrapper{
   width: 250px;
+  
+  /* background-color: pink; */
 }
 </style>

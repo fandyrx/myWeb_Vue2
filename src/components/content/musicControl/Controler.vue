@@ -39,27 +39,34 @@
 		</div>
 		<!-- 播放条 -->
 		<div class="middle">
-			<div class="barControl">
-        <!-- 当前进度播放条AND播放控制点 -->
-				<div class="audio-currentTime-Bar" :style="{width:currentWidth+'%'}">
-           <div  class="audio-circle" ></div>
-        </div>	
-			</div>
 
-      <div class="play-time">
-        <span>{{durationTime}}/</span>
-        <span>{{currentTime}}</span>
+			<div  class="barControl">
+				
+					<el-slider v-model="currentProcess"
+											
+											:show-tooltip="false"
+											:step="0.01"
+											@change="changeCurrentTime($event)"
+											@input="changeShowTime($event)"
+											@mousedown.native="isDrag = true"
+											@mouseup.native="isDrag = false"></el-slider>
+			</div>
+	
+
+      <div class="play-time">     
+        <span>{{currentTime}}/</span>
+				<span>{{durationTime}}</span>
       </div>
 		</div>
 
 		<div class="right">
 			<div class="voice-control">
 				<el-slider
-			class="slider"
-      v-model="voice"
-      vertical
-			v-show="voiceShow"
-      >
+						class="slider"
+						v-model="voice"
+						vertical
+						v-show="voiceShow"
+     		 >
     	</el-slider>
 				<svg class="icon " aria-hidden="true"   @click="voiceShow = !voiceShow">
 					<use xlink:href="#icon-voice"></use>
@@ -70,7 +77,7 @@
 			
 		
 		</div>
-
+<!-- 播放器 -->
 		<audio ref="audio" 
       @timeupdate="timeupdate"
       @durationchange="durationchange"
@@ -89,7 +96,9 @@ export default {
 		return {
       currentTime:"00:00",
       durationTime:'00:00',
-      currentWidth: 0,
+			currentProcess:0,
+
+			isDrag:false,
 			voice:30,
 			voiceShow:false
     };
@@ -120,13 +129,15 @@ export default {
 		},
     //播放时间总时长,当前时间 获取  
     durationchange(e){
-      this.durationTime = moment(e.target.duration *1000).format('mm"ss')
+      this.durationTime = moment(e.target.duration *1000).format('mm:ss')
     },
     timeupdate(e){
-      
-          this.currentTime =  moment(e.target.currentTime * 1000).format('mm"ss')
+				//进度条		    
+					if(!this.isDrag){
+							
+					   this.currentProcess = e.target.currentTime / e.target.duration  * 100
+					}        
        
-          this.currentWidth = e.target.currentTime/e.target.duration * 100
 
     },
     //播放结束  
@@ -134,16 +145,28 @@ export default {
       //播放状态,动画暂停,切换播放按钮
       	this.upDatePlay(false);
 				//重置播放条
-				this.currentWidth = 0
+				this.currentProcess = 0
 				this.currentTime = "00:00"
 				//切换下一首
 				this.change(1)
-			
-				
-			
-				
-    },
 		
+    },	
+		//进度条拖拽
+		changeCurrentTime (value) {
+				
+				this.$refs.audio.currentTime  =  value  /100 * this.$refs.audio.duration 
+					console.log("设置成功:",value)
+			// 拖拽停止更新
+				
+		},
+		changeShowTime(value){	
+				if(this.isPlay){
+					// input方法 一直修改展示的播放时间,滑块value无改动	
+					this.currentTime = moment(value * this.$refs.audio.duration * 10).format("mm:ss")
+			
+				}
+				
+		},
 
 		...mapMutations("music", ["upDatePlay", "getMusicUrl"]),
 	},
@@ -173,7 +196,7 @@ export default {
 		voice:function (){
 			//声量控制范围0-1
 			this.$refs.audio.volume = this.voice / 100
-				this.$refs.audio.muted=false;
+			this.$refs.audio.muted=false;
 		}
 	},
   beforeDestroy(){
@@ -303,38 +326,23 @@ export default {
 .middle {
 	flex: 1;
 	display: flex;
+	align-items: center;
 	//进度条
-	.barControl {
-		position: relative;
-	  width: 100%;
-		height: 4px;
-		background-color: rgba(0, 0, 0, 0.4);
-		
-		margin: auto;
-		//控制点   
-		.audio-circle {
-			position: absolute;
-			top: -4px;
-			right:-12px;
-			width: 12px;
-			height: 12px;
-			border-radius: 50%;
-			background-color: #fff;
+	.barControl{
+		width: 100%;
+		padding:5px;
+		/deep/ .el-slider__bar {
+			background-color: var(--color-tint) ;
 		}
-		//当前进度条 width动态添加
-		.audio-currentTime-Bar {
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 1;
-	
-			height: 4px;
-			background-color: red;
+		/deep/  .el-slider__button {
+			
+			border: 2px solid  var(--color-high-text);
 		}
-	}
+	  }
 	//播放时间
 	.play-time{
 			padding: 0 5px;
+			
 			display: flex;
 			justify-items: center;
 	}

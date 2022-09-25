@@ -12,14 +12,17 @@
 					<el-header>Search</el-header>
 					<el-main >
 						<Banner v-show="isShow"/>
-						<div class="left">
-								<Commend v-show="isShow" :List="tags" :Commend="commend" title="热门推荐"/>
-								<Commend v-show="isShow"  :Commend="newAlbums" title="新碟上架"/>
+						<div class="content"> 
+
+							<div class="left">
+									<Commend v-show="isShow" :List="tags" :Commend="commend" title="热门推荐"/>	
+									<new-album  v-show="isShow"  :newAlbums="newAlbums" />
+
+							</div>
+							<div class="right">
+									<HotSinger />
+							</div>
 						</div>
-						<div class="right">
-								<HotSinger />
-						</div>
-					
 						
 						
 						<transition  name="fade" mode="out-in" appear  >	
@@ -39,52 +42,41 @@
  import PlayList from '@/views/music/playList/PlayList'
  import Commend from "@/components/content/commend/Commend.vue"
  import HotSinger from '@/views/music/hotSinger/HotSinger'
+ import NewAlbum from './newAlbum/NewAlbum.vue'
 
- import {reqTopAlbum}  from "@/api/index"
 
  import {mapState} from "vuex"
+
 export default {
 	name: "Music",
 	data() {
 		return {	
 				key: this.$route.fullPath + Math.random(), 
-				newAlbums:[]
+				
 		};
 	},
 	components: {
 		Banner,
 		Commend,
 		PlayList,
-		HotSinger
+		HotSinger,
+		NewAlbum
 		
 	},
-	methods: {
-		//新碟数据获取
-	async	getTopAlbum(){
-		let res = await	reqTopAlbum();
-		if(res.code === 200){
-			
-			this.newAlbums = res.albums
-			
-		}else{
-			return Promise.reject( new Error('获取新专辑失败'))
-		}
-		}
-	},
+	
+
 	beforeCreate(){
 			//轮播图,推荐列表,歌单分类
 		this.$store.dispatch("music/getBanner",0)
 		this.$store.dispatch("music/getCommend")
 		this.$store.dispatch("music/getCategoryList")
+		this.$store.dispatch("music/getNewAlbum")
 		
 	},
-	mounted(){
-		//新碟
-		this.getTopAlbum();
-		
-	},
+	
+	
 	computed:{
-		...mapState("music",['commend',"tags","isShow"])
+		...mapState("music",['commend',"newAlbums","tags","isShow"])
 	},
 	  watch: {
 			"$route"(){
@@ -129,6 +121,14 @@ body > .el-container {
 .el-container{
   width:100vw;
 }
+
+
+.content{
+	display: flex;
+	margin-top:10px;
+}
+
+
 
 	
 </style>

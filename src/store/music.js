@@ -1,11 +1,10 @@
-import {reqBanner,reqCommend,reqPlayTags } from "@/api/index.js"
-
+import {reqBanner,reqCommend,reqPlayTags,reqTopAlbum } from "@/api/index.js"
 
 const state = {
   banner:[],
   commend:[],//推荐歌单
   tags:[], //分类标签
- 
+  newAlbums:[], //新碟
   isShow: true, //跳转详情页,控制其他组件是否展示
   playInfo:[{
     al:{
@@ -34,11 +33,17 @@ const mutations = {
     state.tags = tags
   },
   GET_COMMEND(state,commend){
+    
     state.commend = commend
   },
   SET_MUSICITEM(state,item){
     state.playInfo = item
   },
+  SET_NEWALBUMS(state,albums){
+  
+    state.newAlbums = albums
+  },
+
   getMusicUrl(state,index){
     // console.log(index,'index获取');
     state.playIndex = index
@@ -97,12 +102,28 @@ const actions = {
   async getMusicItem ({commit},item){
     commit("SET_MUSICITEM",item)
       
+  },
+
+  //5.newAlbum
+  async getNewAlbum ({commit}) {
+		//新碟数据获取
+      let res = await	reqTopAlbum();
+      if(res.code === 200){
+         
+        commit("SET_NEWALBUMS",res.albums)
+       
+        
+      }else{
+        return Promise.reject( new Error('获取新专辑失败'))
+      }
+      }
+    
   }
  
   
   
 
-}
+
 
 
 

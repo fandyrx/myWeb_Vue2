@@ -1,7 +1,8 @@
 <template>
  <Navbar class="wrapper">
 			<div slot="left" class="title">
-				<h3>{{ title }}</h3>
+				<i class="logo sprite_02"></i>
+				<h3> {{ title }}</h3>
 			</div>
 
 			<div slot="middle" class="middle" >
@@ -61,6 +62,22 @@ export default {
 	border-bottom: 1px solid rgb(229, 79, 79);
 	margin-bottom: 10px;
 }
+
+		.title{
+			display: flex;
+			align-items: center;
+
+			.logo{
+				
+				 height: 30px;
+				
+					padding: 0 10px 4px 34px;
+					background-position: -225px -156px;
+
+			}
+		}
+	
+
 .middle {
 	
 	font-size: 12px;

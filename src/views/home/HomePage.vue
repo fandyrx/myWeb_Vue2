@@ -12,7 +12,7 @@
 					text-color="#fff"
 					active-text-color="#ffd04b"
 					router
-					@select="handleSelect"
+					
 				>
 					<el-menu-item index="/home/showCards">主页</el-menu-item>
 
@@ -69,11 +69,6 @@ export default {
 		MainArea,
 	},
 	methods: {
-		handleSelect(key, keyPath) {
-			//验证ui组件作用
-			// console.log(key, keyPath);
-		},
-
 		// logout
 		logout() {
 			this.$store.commit("user/LOG_OUT");
@@ -86,7 +81,7 @@ export default {
 			return this.$store.state.user.userInfo;
 		},
 	},
-	mounted() {},
+	
 };
 </script>
 

@@ -3,7 +3,11 @@
 	<div class="show">
 		<ul>
 			<li  v-for="item in Commend" :key="item.id" @click="toDetail(item.id, item.type)">
-				<img v-lazy="item.picUrl" />
+				<div class="top">
+						<img v-lazy="item.picUrl+'?param=140x140'" />
+						<a class="cover sprite_cover" href="javascript:;"></a>
+				</div>
+				
 				<div class="bottom">bottom</div>
 
 				<p>{{ item.name }}</p>
@@ -29,6 +33,7 @@ export default {
 			 this.$store.state.music.isShow = false;
 		},
 	},
+	
 };
 </script>
 
@@ -45,12 +50,25 @@ export default {
 			height: 200px;
 			line-height: 100%;
       cursor: pointer;
+			.top{
+				position: relative;
 
-			img {
+				img {
 				width: 100%;
 				height: 140px;
 				border-radius: 5px;
 			}
+				.cover{
+					position: absolute;
+					top:0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					
+					background-position: 0 0;
+				}
+			}
+			
 			.bottom {
 				position: relative;
 				top: -15px;
