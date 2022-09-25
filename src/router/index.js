@@ -2,7 +2,12 @@ import Vue from 'vue'
 import VueRouter from "vue-router" 
 import store from "@/store/index"
 
-
+//获取原型对象上的push函数
+const originalPush = VueRouter.prototype.push
+//修改原型对象中的push方法
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 Vue.use(VueRouter);
 
@@ -12,9 +17,15 @@ const Blog = ()=> import ("@/views/blog/Blog.vue")
 const ShowCards = ()=> import ("@/views/showCard/ShowCard.vue")
 const Music  = () => import ("@/views/music/Music.vue")
 const Detail = () => import ("@/views/music/songDetail/SongDetail.vue")
+const TopPlayList = ()=> import ("@/views/music/TopPlayList/TopPlayList")
 // 1.路由规则
-const routes = [
 
+const routes = [
+ 
+  {
+    path:'/test',
+    component:()=>import ("@/test/test.vue")
+  },
   {
     path:'/',
     redirect:'/login'
@@ -50,10 +61,22 @@ const routes = [
           {
             path:'detail',
             name:'detail',
-            component:Detail
-          }
-        ]
+            component:Detail,
+            //播放器是否显示
+            meta:{show:true}
+          },
+         
+        ],
+        meta:{show:true}
       },
+      {
+        // 歌单
+        path:"topPlayList",
+        name:"topPlayList",
+        component:TopPlayList, 
+        meta:{show:true}
+     
+      }
      
     ]
   },

@@ -54,11 +54,7 @@ export default {
 			//控制天气开关
 		handleClick(e){
 				this.isShow = !this.isShow 
-				// ? 无法解绑?
-				// window.removeEventListener("mouseleave",this.handleLeave,true)
-				// e.target.removeEventListener("mouseleave",this.handleLeave)
-				// 	this.$off('mouseleave',this.handleLeave)
-					
+				
 		},
 		handleEnter(){
 				this.isShow = true

@@ -14,7 +14,6 @@ const requests = axios.create({
 requests.interceptors.request.use((config)=>{
   //config:配置对象 内含headers
       
-
  
     return config
 })
@@ -23,7 +22,17 @@ requests.interceptors.request.use((config)=>{
 requests.interceptors.response.use((res)=>{
   return res.data
 },(err)=>{
-  
+    if(err && err.response.status) {
+      switch (err.response.status) {
+        case 400:
+          console.log("请求错误")
+          break;
+        case 401:
+          console.log("未授权访问")
+          break;
+        default: console.log("其他错误")
+      }
+    }
   return Promise.reject(new Error('响应失败'))
 })
 
@@ -35,7 +44,7 @@ requests.interceptors.response.use((res)=>{
 //二.网易云音乐请求接口
 const requestM =  axios.create({
 
-  baseURL: "http://101.35.247.114:3000/",
+  baseURL: config.host,
   timeout: 5000,
 });
 

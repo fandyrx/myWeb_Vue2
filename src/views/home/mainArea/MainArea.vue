@@ -1,37 +1,41 @@
 <template>
 	<div class="main-container">
 		<el-card class="box-card">
-			<div  class="clearfix header">
+			<div  class=" header">
 				<span>每日一句:{{ sentence.name }}</span>
 				<span>{{ sentence.from }}</span>
 			</div>
 		</el-card>
 
 		<transition name="el-fade-in-linear" mode="out-in" appear>
-      <router-view />
+      <router-view :key="key" />
     </transition>
+		
+		 <!-- 为了音乐全局使用  -->
+   		<Controler  v-show="$route.meta.show"/>
+						   
+
 	</div>
 	
 </template>
 
 <script>
-
+import Controler from '@/components/content/musicControl/Controler.vue'
 import{ reqSentences } from "@/api/index"
 export default {
 	name: "MainArea",
 	
 	data() {
 		return {
-		
-			
-			sentence:{
+				key: this.$route.fullPath ,
+				sentence:{
 				from:'',
 				name:''
 			}
 		}
 	},
 	components: {
-		
+		 Controler
 	},
 	methods: {
 		getUserInfo() {
@@ -55,9 +59,12 @@ export default {
 <style scoped>
 .main-container {
 	height: 100%;
+	font-weight: 600;	
+	font-family:  cursive ;
+	
 }
 
- 
+
 /* 下拉框 */
 .el-dropdown-link {
 	cursor: pointer;

@@ -16,15 +16,15 @@ export const reqHomeImages = (params)=> requests({url:`/getImages/`,method:'get'
 
 export const reqBanner = (type)=> requestM({url:'/banner',method:"get",params:{type}})
 
-// 3.推荐分类
+// 3.推荐分类 歌单
 export const reqCommend = ()=>requestM({
   url:"/personalized?limit=10",
  
 })
 
 //playlist/hot  4.热门歌单
-export const reqPlayList = ()=>requestM({
-  url:"/playlist/hot",
+export const reqPlayTags = ()=>requestM({
+  url:"/playlist/highquality/tags",
   
 })
 
@@ -37,13 +37,13 @@ export const reqDetail = (id)=> {
 }
 
 
-//6.获取歌单所有歌曲 limit 20首用于展示
+//6.获取歌单所有歌曲 limit 展示数目
   
 export const reqMusicItem = (id)=> requestM({
  url:"/playlist/track/all",
  params:{
   id,
-  limit:20
+  
   
  }
 })
@@ -51,8 +51,7 @@ export const reqMusicItem = (id)=> requestM({
 
 //5.1详情页信息整理
 export class SongDetails {
-  constructor (playList){
-       
+  constructor (playList){     
         this.name = playList.name  //歌单名
         this.coverImgUrl = playList.coverImgUrl
         this.description =  playList.description
@@ -77,3 +76,40 @@ export const reqMusicUrl =(id)=>{
     }
   })
 } 
+
+//7.精品歌单 /top/playlist/highquality
+export const reqTopPlayList =  (cat)=> requestM({
+  url:"/top/playlist/highquality", 
+  params:{
+    cat
+  }
+})
+
+
+
+
+
+//8. 新碟上架 /album/newest
+export const reqTopAlbum = ()=> requestM({
+  url:"/album/newest",
+  
+})
+
+// 专辑内容
+export const reqAlbumDetail = (id) =>requestM({
+  url:"/album",
+  params:{
+    id
+  }
+})
+
+export class AlbumDetail {
+  constructor (album){     
+        this.name = album.name  //歌单名
+        this.coverImgUrl = album.picUrl
+        this.description =  album.description
+        this.creator =  album.artist.name
+        this.avatarUrl  = album.artist.picUrl // 歌单作者头像
+        this.tracks = album.tracks   //专辑内容(含id) 
+  } 
+}

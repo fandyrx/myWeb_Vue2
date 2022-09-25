@@ -1,10 +1,10 @@
-import {reqBanner,reqCommend,reqPlayList,reqMusicUrl} from "@/api/index.js"
-
+import {reqBanner,reqCommend,reqPlayTags,reqTopAlbum } from "@/api/index.js"
 
 const state = {
   banner:[],
   commend:[],//推荐歌单
   tags:[], //分类标签
+  newAlbums:[], //新碟
   isShow: true, //跳转详情页,控制其他组件是否展示
   playInfo:[{
     al:{
@@ -21,6 +21,8 @@ const state = {
   playIndex:0,
   isPlay:false, //播放状态
 
+  userPlayList:[]//左侧的播放列表 持久化存储，后端数据查看
+  
   
 }
 const mutations = {
@@ -31,11 +33,17 @@ const mutations = {
     state.tags = tags
   },
   GET_COMMEND(state,commend){
+    
     state.commend = commend
   },
   SET_MUSICITEM(state,item){
     state.playInfo = item
   },
+  SET_NEWALBUMS(state,albums){
+  
+    state.newAlbums = albums
+  },
+
   getMusicUrl(state,index){
     // console.log(index,'index获取');
     state.playIndex = index
@@ -44,8 +52,12 @@ const mutations = {
       state.isPlay = isPlay
   },
   CHANGE_INDEX(state,num){
-    console.log(num);
     state.playIndex = num  
+  },
+  CHANGE_IsShow(state,boolean){
+    //歌单退出,切换展示
+    state.isShow = boolean
+    
   }
   
  
@@ -55,7 +67,7 @@ const actions = {
   //1.轮播图
  async getBanner({commit},type){
     let result = await reqBanner(type)
-    console.log(result);
+   
     if(result.code == 200){
      
       commit("GET_BANNER",result.banners)
@@ -67,17 +79,18 @@ const actions = {
   async getCommend ({commit}){
       let res  = await reqCommend()
       if(res.code == 200){
+       
        commit("GET_COMMEND",res.result)
       }else{
         return Promise.reject(new Error("fail"))
       }
   },
-//3.推荐分类
+//3.热门分类 标签
   async getCategoryList ({commit}) {
     
-     let res = await reqPlayList()
-      
-    if(res.code == 200){
+     let res = await reqPlayTags()
+         
+    if(res.code == 200){  
      let tags =  res.tags.slice(0,5)
      commit("GET_CARLIST",tags)
     }else{
@@ -90,9 +103,27 @@ const actions = {
     commit("SET_MUSICITEM",item)
       
   },
+
+  //5.newAlbum
+  async getNewAlbum ({commit}) {
+		//新碟数据获取
+      let res = await	reqTopAlbum();
+      if(res.code === 200){
+         
+        commit("SET_NEWALBUMS",res.albums)
+       
+        
+      }else{
+        return Promise.reject( new Error('获取新专辑失败'))
+      }
+      }
+    
+  }
+ 
+  
   
 
-}
+
 
 
 

@@ -4,11 +4,21 @@
 			<img :class="{ discAnimation: isPlay }" v-lazy="playInfo[playIndex].al.picUrl" alt="歌曲封面" />
 
 			<div class="auth">
-				<span>{{ playInfo[playIndex].name }}</span>
-
-				<span class="authName" v-for="(singer, index) in playInfo[playIndex].ar" :key="index">
-					{{ singer.name }}
-				</span>
+						<div :class="{move:isPlay}">
+							<span :class="{textRoll:isPlay}">
+									{{ playInfo[playIndex].name }}
+							</span>
+						</div>
+				
+					<div  :class="{'marqueeWrap':true,move:isPlay}"> 
+						 <div :class="{'singer':true,textRoll:isPlay}">
+								<span   v-for="(singer, index) in playInfo[playIndex].ar" :key="index">
+									{{ singer.name }}
+								</span>		
+					 </div>
+					
+				</div>
+				
 			</div>
 
 			<svg class="icon" aria-hidden="true" @click="change(-1)">
@@ -29,35 +39,45 @@
 		</div>
 		<!-- 播放条 -->
 		<div class="middle">
-			<div class="barControl">
-        <!-- 当前进度播放条AND播放控制点 -->
-				<div class="audio-currentTime-Bar" :style="{width:currentWidth+'%'}">
-           <div  class="audio-circle" ></div>
-        </div>	
+
+			<div  class="barControl">
+				
+					<el-slider v-model="currentProcess"
+											
+											:show-tooltip="false"
+											:step="0.01"
+											@change="changeCurrentTime($event)"
+											@input="changeShowTime($event)"
+											@mousedown.native="isDrag = true"
+											@mouseup.native="isDrag = false"></el-slider>
 			</div>
-      <div>
-        <span>{{durationTime}}/</span>
-        <span>{{currentTime}}</span>
+	
+
+      <div class="play-time">     
+        <span>{{currentTime}}/</span>
+				<span>{{durationTime}}</span>
       </div>
 		</div>
 
 		<div class="right">
 			<div class="voice-control">
 				<el-slider
-			class="slider"
-      v-model="voice"
-      vertical
-			v-show="voiceShow"
-      >
+						class="slider"
+						v-model="voice"
+						vertical
+						v-show="voiceShow"
+     		 >
     	</el-slider>
 				<svg class="icon " aria-hidden="true"   @click="voiceShow = !voiceShow">
 					<use xlink:href="#icon-voice"></use>
 				</svg>
-			</div>
-
-			<span>列表</span>
+		
 		</div>
 
+			
+		
+		</div>
+<!-- 播放器 -->
 		<audio ref="audio" 
       @timeupdate="timeupdate"
       @durationchange="durationchange"
@@ -76,8 +96,10 @@ export default {
 		return {
       currentTime:"00:00",
       durationTime:'00:00',
-      currentWidth: 0,
-			voice:50,
+			currentProcess:0,
+
+			isDrag:false,
+			voice:30,
 			voiceShow:false
     };
 	},
@@ -107,56 +129,79 @@ export default {
 		},
     //播放时间总时长,当前时间 获取  
     durationchange(e){
-      this.durationTime = moment(e.target.duration *1000).format('mm"ss')
+      this.durationTime = moment(e.target.duration *1000).format('mm:ss')
     },
     timeupdate(e){
-      
-          this.currentTime =  moment(e.target.currentTime * 1000).format('mm"ss')
+				//进度条		    
+					if(!this.isDrag){
+							
+					   this.currentProcess = e.target.currentTime / e.target.duration  * 100
+					}        
        
-          this.currentWidth = e.target.currentTime/e.target.duration * 100
 
     },
     //播放结束  
     ended(e){
       //播放状态,动画暂停,切换播放按钮
       	this.upDatePlay(false);
+				//重置播放条
+				this.currentProcess = 0
+				this.currentTime = "00:00"
 				//切换下一首
 				this.change(1)
-      
-    },
 		
+    },	
+		//进度条拖拽
+		changeCurrentTime (value) {
+				
+				this.$refs.audio.currentTime  =  value  /100 * this.$refs.audio.duration 
+					console.log("设置成功:",value)
+			// 拖拽停止更新
+				
+		},
+		changeShowTime(value){	
+				if(this.isPlay){
+					// input方法 一直修改展示的播放时间,滑块value无改动	
+					this.currentTime = moment(value * this.$refs.audio.duration * 10).format("mm:ss")
+			
+				}
+				
+		},
 
 		...mapMutations("music", ["upDatePlay", "getMusicUrl"]),
 	},
 	mounted() {
-   
+		//初始化音量 30
+		this.$refs.audio.volume = this.voice / 100
+	
+		
   },
+
 	computed: {
 		...mapState("music", ["playInfo", "isPlay", "playIndex"]),
 	},
 	watch: {
-		
 		playIndex: function () {
 			this.$refs.audio.autoplay = true;
 			if (this.$refs.audio.paused) {
 				this.upDatePlay(true);
 			}
 		},
-		playInfo: function () {
-			
+		playInfo: function () {	
 			if (!this.isPlay) {
 				this.$refs.audio.autoplay = true;
 				this.upDatePlay(true);
 			}
 		},
 		voice:function (){
-		
-			this.$refs.audio.volume = this.voice
-				this.$refs.audio.muted=false;
+			//声量控制范围0-1
+			this.$refs.audio.volume = this.voice / 100
+			this.$refs.audio.muted=false;
 		}
 	},
   beforeDestroy(){
      this.upDatePlay(false);
+		
   }
 };
 </script>
@@ -167,27 +212,45 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background-color: #b3c0d1;
+	color: #333;
+
+	
 
 	.left {
 		display: flex;
 		align-items: center;
+	
+			
 		.auth {
-			width: 100px;
+			width: (20/100)vw;
 			margin: 10px;
 			display: flex;
 			flex-direction: column;
 			text-align: left;
 			font-size: 14px;
-
+			
+			word-break: break-all;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;	
+		
+    
 			span {
 				padding-top: 5px;
 			}
-      .authName{
+      .marqueeWrap{
+					display: flex;
 
+
+					.singer{
+						padding-left:5px;
+					
+					}
       }
 		}
 		img {
-			width: 60px;
+			width: 50px;
 			height: 100%;
 			border-radius: 50%;
 			vertical-align: bottom;
@@ -195,11 +258,46 @@ export default {
 	}
 }
 
+
+
+.move{
+	animation: marqueeTransform 10s linear infinite;
+}
+
+.textRoll{
+		animation: marqueeTransText 10s linear infinite;
+}
+
+// 文本移动
+@keyframes marqueeTransText {
+	0% {
+		transform: translate(0, 0);
+	}
+	
+	100% {
+		transform: translate(-100%, 0);
+	}
+	
+}
+//文本包裹容器移动
+@keyframes marqueeTransform {
+	0% {
+		transform: translate(100%, 0);
+	}
+	
+	100% {
+		transform: translate(0, 0);
+	}
+	
+}
+
 .icon {
 	position: relative;
 	top: -10%;
 	font-size: 40px;
+	cursor: pointer;
 }
+
 
 //播放类名
 .discAnimation {
@@ -226,43 +324,37 @@ export default {
 /* 播放进度条 */
 
 .middle {
-	width: 100%;
-	height: 100%;
-	line-height: 100%;
+	flex: 1;
 	display: flex;
+	align-items: center;
 	//进度条
-	.barControl {
-		position: relative;
-	  width: 100%;
-		height: 4px;
-		background-color: rgba(0, 0, 0, 0.4);
-		margin: auto;
-		//控制点   
-		.audio-circle {
-			position: absolute;
-			top: -4px;
-			right:-12px;
-			width: 12px;
-			height: 12px;
-			border-radius: 50%;
-			background-color: #fff;
+	.barControl{
+		width: 100%;
+		padding:5px;
+		/deep/ .el-slider__bar {
+			background-color: var(--color-tint) ;
 		}
-		//当前进度条 width动态添加
-		.audio-currentTime-Bar {
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 1;
-	
-			height: 4px;
-			background-color: red;
+		/deep/  .el-slider__button {
+			
+			border: 2px solid  var(--color-high-text);
 		}
+	  }
+	//播放时间
+	.play-time{
+			padding: 0 5px;
+			
+			display: flex;
+			justify-items: center;
 	}
 }
+
 //音量 列表区
 .right{
+	width: 50px;
 	display: flex;
-	padding: 10px;
+	margin: 0 10px  0;
+	
+	
 	.voice-control{
 		position: relative;
 		svg{
@@ -279,9 +371,7 @@ export default {
 			right: -2px;
 		}
 	}
-	span{
-		width: 40px;
-	}
+
 }
 
 		

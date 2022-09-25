@@ -1,24 +1,35 @@
 <template>
-	<div>
+	<div class="container">
 		
 			<el-container>
-				<el-aside >Aside
-					歌单拖拽,添加播放列表?offset  draggable="true" 
+				<el-aside width="20vw">
+					拖拽歌曲,暂时存放(未做接口)
+					<PlayList />
+				
 				</el-aside>
 
 				<el-container>
 					<el-header>Search</el-header>
 					<el-main >
 						<Banner v-show="isShow"/>
-						<Commend v-show="isShow" :List="tags" :Commend="commend" title="热门推荐"/>
-						<transition name="fade" mode="out-in" appear>
-								 <router-view   v-show="!isShow" :key="key" /> 
-						 </transition>
-					</el-main>
+						<div class="content"> 
 
-					<el-footer>
-						<Controler />
-					</el-footer>
+							<div class="left">
+									<Commend v-show="isShow" :List="tags" :Commend="commend" title="热门推荐"/>	
+									<new-album  v-show="isShow"  :newAlbums="newAlbums" />
+
+							</div>
+							<div class="right">
+									<HotSinger />
+							</div>
+						</div>
+						
+						
+						<transition  name="fade" mode="out-in" appear  >	
+								 <router-view  v-if="!isShow" :key="key" /> 	
+						 </transition>
+
+					</el-main>
 				</el-container>
 
 			</el-container>
@@ -28,39 +39,50 @@
 
 <script>
  import Banner from '@/views/music/banner/Banner'
- 
+ import PlayList from '@/views/music/playList/PlayList'
  import Commend from "@/components/content/commend/Commend.vue"
- import Controler from '@/components/content/musicControl/Controler.vue'
+ import HotSinger from '@/views/music/hotSinger/HotSinger'
+ import NewAlbum from './newAlbum/NewAlbum.vue'
+
+
  import {mapState} from "vuex"
+
 export default {
 	name: "Music",
 	data() {
-		return {		
-				key: this.$route.path 
+		return {	
+				key: this.$route.fullPath + Math.random(), 
 				
-
 		};
 	},
 	components: {
 		Banner,
 		Commend,
-		Controler
+		PlayList,
+		HotSinger,
+		NewAlbum
+		
 	},
-	methods: {},
+	
+
 	beforeCreate(){
 			//轮播图,推荐列表,歌单分类
 		this.$store.dispatch("music/getBanner",0)
 		this.$store.dispatch("music/getCommend")
 		this.$store.dispatch("music/getCategoryList")
+		this.$store.dispatch("music/getNewAlbum")
+		
 	},
-
-	mounted() {
-
-
-	},
+	
+	
 	computed:{
-		...mapState("music",['commend',"tags","isShow"])
+		...mapState("music",['commend',"newAlbums","tags","isShow"])
 	},
+	  watch: {
+			"$route"(){
+				// console.log(this.$route.fullPath ,"routechange");
+			}
+		}
 	
 
 };
@@ -68,25 +90,24 @@ export default {
 
 <style scoped>
 
+.container{
+	font-family: serif;
+}
 
-
-.el-header,
-.el-footer {
-  
+.el-header{
 	background-color: #b3c0d1;
 	color: #333;
 	text-align: center;
 	
 }
 .el-aside {
-	background-color: #d3dce6;
-	color: #333;
 	
-  
+	background-color: #d3dce6;
+	color: #333;  
 }
 
 .el-main {
- 
+	
 	background-color: #e9eef3;
 	color: #333;
 
@@ -95,15 +116,19 @@ export default {
 
 body > .el-container {
 	margin-bottom: 40px;
-  
 }
+
 .el-container{
-  height:100vh;
+  width:100vw;
 }
 
 
-.play-list {
-	min-width: 100%;
-	height: 100%;
+.content{
+	display: flex;
+	margin-top:10px;
 }
+
+
+
+	
 </style>
