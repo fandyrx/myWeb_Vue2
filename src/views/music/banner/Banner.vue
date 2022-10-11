@@ -60,7 +60,8 @@ overflow-y: hidden;
     left: unset;
     transform: unset;
     text-align: center;
-    right: 30%;
+    right: 50%;
+    transform: translate(50%);
     bottom:0;
 
 }

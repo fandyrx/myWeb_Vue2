@@ -22,14 +22,15 @@ export default {
 
 <style scoped>
   .nav-bar{
+    width: 100%;
     height: 64px;
-    line-height: 100%;
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    line-height: 64px;
     /* background-color: pink; */
   }
   .left, .right{
+   
     padding: 0 20px;
     /* background-color: lightblue; */
   }

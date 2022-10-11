@@ -27,9 +27,9 @@
            :offset="showImages.length > 0 ? 2 : 0"  
 					  :xs="12" 
            >
-           <!-- 行内设置高度,解决图片大小不一引起模板空白 失败,直接修改el-col 样式-->
+          
 						<el-card
-					
+					  	@click.native="showBig(item)"
              :body-style="{ padding: '0px'}">
 							<img  v-lazy="item.url" class="image" />
 								<!-- 文本 -->
@@ -39,7 +39,7 @@
 
 								<div class="bottom clearfix">
 									<time class="time">{{ currentDate }}</time>
-									<el-button type="text" class="button">操作按钮</el-button>
+								
 								</div>
 							</div>
 						</el-card>
@@ -63,6 +63,15 @@
         > 
       </el-pagination>
 		</el-card>
+
+
+
+
+		<el-dialog :visible.sync="dialogVisible"	width="100%" >
+			
+						<img :src="picBig" class="show-big" alt="">
+			
+		</el-dialog>
       </div>
 	
 
@@ -70,25 +79,30 @@
 
 <script>
 import { reqHomeImages } from "@/api/index";
+import moment from 'moment';
+moment.suppressDeprecationWarnings = true ; // 直接关闭提示
+
 export default {
   name: 'ShowCard',
   data() { 
     return {
-        currentDate: new Date(),
+        
         showImages: [],
-			imagesType: {
+				imagesType: {
 				type: "beauty",
 				page: 1,
 				size: 10,
+			
 			},
 
       limit:10,    //每页数据
       total:0, //分页一共需要展示数据条数
+			dialogVisible: false,
+			picBig:''
 	    
     }
   },
-  components:{
-  },
+  
   methods:{
        //1.获取展示图片请求
 		async getImages(pages = 1) {
@@ -123,16 +137,14 @@ export default {
         this.getImages(this.page)
 
     },
+		//dialog
+		showBig(item){
+			
+			this.picBig = item.url
+			this.dialogVisible = true;
+		},
 		randNum(min,max){
-				let random = Math.random()   //0.1-0.9  
-				//  min  - max  之间随机数
-				//最小为 0    0 * max + min = min  最小值
-				//最大为 0.9  0.9 * max 永远小于自身 + 1 再向下取整可得max 自身
-				//   	Math.floor( Math.random() * (max  + 1 ))  + min =   max + min 
-					//我最大只要 max   
-				//   Math.floor( Math.random() * (max  - min + 1 ) )  + min  =   max    
-				//	   0.9* max - 0.9*min +1 + min 
-				//    0.9*max + 1 (max.xxxx)- 0.9*min +min(0.xxx) = max.xxx-0.xxxx  (不会小于max,再向下取整) 
+				
 				min = Math.ceil(min);
 				max = Math.floor(max);
 				return Math.floor( Math.random() * (max  - min + 1 ) )  + min 
@@ -142,6 +154,13 @@ export default {
   mounted() {
       	this.changeType("random")
   },
+	computed:{	
+			currentDate:()=>{	
+				
+				moment.locale("zh-cn");         
+				return moment().format("LLL");
+			} 
+	}
  }
 </script>
 
@@ -168,6 +187,7 @@ export default {
 
 .image {
 	width: 100%;
+
   
 	display: block;
 }
@@ -200,5 +220,11 @@ export default {
   }
 	.el-col {
 		margin-bottom: 20px;
+	}
+
+	
+	
+	.show-big {
+		width: 100%;
 	}
 </style>

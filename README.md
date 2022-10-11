@@ -191,8 +191,8 @@ router.$addRoutes = (params) => {
    - 5.判断停止播放跳转,奇怪的bug,同样代码,打了两三次,突然能进判断了,浏览器没有更新?调了2个小时
   ## 8.增加音量控制,修复自动切换bug
   ## 9.vercel 代理挂了
-  - 1.服务器安装node wget https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz
-  - 2.解压tar -xvf node-v16.16.0-linux-x64.tar.xz -C /usr/local/lib
+  - 1.服务器安装node: wget https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz
+  - 2.解压: tar -xvf node-v16.16.0-linux-x64.tar.xz -C /usr/local/lib
   - 3.进入 /usr/local/lib 下重命名 node-v16.16.0-linux-x64 为 node
   - 4.设置环境变量：sudo vim /etc/profile 文件最后:
   ```
@@ -211,3 +211,62 @@ router.$addRoutes = (params) => {
   ```
   - 10. 启动成功
   - 11. api 请求地址更改为服务器地址加开放端口
+  
+## 10.音量bug 修复 0-1范围值 ,css3 动画实现播放器 作者名 滚动
+   - 10.1 拖拽，不同歌单切换 ，根据序号播放不行 ，简单版的BUG：需要获取数据，重新排序
+   - 10.2 自定义属性的获取 
+   - 10.3 新增歌曲拖拽,播放完毕重置 进度条
+   - 10.4 控制器放到首页,全局播放,不会中断,根据$route.meta显示/消失
+  
+  -  拖拽排序,,获取失败的回调处理
+  
+## 11.推荐详情组件逻辑抽取,修改个别样式
+
+## 移动端适配复习
+ - rem 相对单位  1rem = 1html 根字号大小
+  ```
+  1.媒体查询 
+  @media (媒体特性) {
+    选择器 {
+      CSS 属性
+    }
+  } 
+  设置差异样式时  min-width 从小到大, max-width 从大到小 
+
+  
+  例子:根据不同视口宽度 设置不同根字号
+  @media (width:320px){
+    html {
+      font-size: 32px;
+    }
+  }
+
+  rem 视口分布为10 份,  根字号为 视口宽度1/10
+  1.1 确定HTML 根字号
+  1.2 设计稿 375 , HTML字号则为37.5 ,样式大小68px, 68/37.5 则为rem单位
+  
+  实际使用:flexible.js 手淘开发的框架
+  script 引入,自动 切换媒体查询,直接写rem
+
+  2.less 简化计算 变量声明
+     2.1  @变量名: 值;    使用@变量名即可
+      2.2 width 68px , 设计稿 375
+     width:(68 / 375rem);   CSS转化时自动转换(插件Easy Less )
+
+  3.vw/vh 
+  px单位 / (1/100 视口宽度)  vw 
+
+  68 / 3.75 设计稿375
+
+  4.css 框架 BootStrap 
+  link 引入, 使用类名即可
+  栅格化 响应布局 根据视口宽度,默认分成12份
+  col-lg-3  代表:该列,大屏,占据3份
+  ```
+
+  ## 12. 封装input框 修改个别样式,首页登录图 底部波浪动画
+   - 1.注意两点: 组件内部不绑定$listeners ,V-model 否则Vue重复触发事件,第二次触发为事件对象.
+   - 2.input事件组件内部DOM的value值需要和外部传入PROPS保持一致
+   - 3.样式问题 怪异盒模式,去掉边框会看不到 outline(这个组件情况),补1px padding
+   - 4.c3 animate 调节样式 找图
+   - 5.推荐歌单跳转详情页 显示状态数据,等待组件数据加载再修改状态会阻塞修复:在跳转时更改Store 的状态

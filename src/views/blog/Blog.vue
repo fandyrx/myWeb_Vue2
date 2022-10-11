@@ -1,33 +1,22 @@
 <template>
-  <div>
-      blog area
-          swiper for article pic?
-          渐变背景
-      <Article/>
- </div>
+	<div>
+		<Article />
+	</div>
 </template>
 
 <script>
-import Article from '@/views/blog/article/Article'
+import Article from "@/views/blog/c-cpns/article/Article";
 export default {
-  name: 'Blog',
-  data() { 
-    return {
-
-    }
-  },
-  components:{
-    Article
-  },
-  methods:{
-
-  },
-  mounted() {
-
-  },
- }
+	name: "Blog",
+	data() {
+		return {};
+	},
+	components: {
+		Article,
+	},
+	methods: {},
+	mounted() {},
+};
 </script>
 
-<style scoped>
- 
-</style>
+<style scoped></style>

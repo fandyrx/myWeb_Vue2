@@ -1,7 +1,6 @@
 // 封装axios 练习
 import axios from "axios"
-import store from "@/store"
-import { Message } from "element-ui"
+
 //1.引入,创建实例
 const requests = axios.create({
   //配置基础路径  用来设置代理服务器路径(跨域问题) // url = base url + request url 

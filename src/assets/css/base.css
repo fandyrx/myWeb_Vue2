@@ -10,6 +10,33 @@
   --line-height: 1.5;
 }
 
+
+/* 精灵图 */
+.text-nowrap {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
+.sprite_01{
+  background: url("../img/sprite_01.png")  no-repeat ;
+
+}
+
+.sprite_02{
+  background: url("../img/sprite_02.png") no-repeat;
+}
+
+.sprite_cover{
+  background: url("../img/sprite_cover.png") no-repeat;
+}
+
+
+
+
+
+
 *,
 *::before,
 *::after {
