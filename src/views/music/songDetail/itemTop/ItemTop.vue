@@ -2,9 +2,7 @@
 	<div class="container">
 		<div class="header">
 			<Navbar>
-				<div class="back" slot="left" @click="back" >后退</div>
-				
-				<div slot="right">更多</div>
+				<div class="back" slot="left" @click="back">后退</div>
 			</Navbar>
 		</div>
 
@@ -46,9 +44,7 @@ export default {
 			},
 		},
 	},
-	data() {
-		return {};
-	},
+
 	components: {
 		Navbar,
 	},
@@ -66,7 +62,7 @@ export default {
 .header {
 	width: 100%;
 	// height: 20px;
-	.back{
+	.back {
 		cursor: pointer;
 	}
 }

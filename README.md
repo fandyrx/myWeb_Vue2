@@ -191,8 +191,8 @@ router.$addRoutes = (params) => {
    - 5.判断停止播放跳转,奇怪的bug,同样代码,打了两三次,突然能进判断了,浏览器没有更新?调了2个小时
   ## 8.增加音量控制,修复自动切换bug
   ## 9.vercel 代理挂了
-  - 1.服务器安装node wget https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz
-  - 2.解压tar -xvf node-v16.16.0-linux-x64.tar.xz -C /usr/local/lib
+  - 1.服务器安装node: wget https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-x64.tar.xz
+  - 2.解压: tar -xvf node-v16.16.0-linux-x64.tar.xz -C /usr/local/lib
   - 3.进入 /usr/local/lib 下重命名 node-v16.16.0-linux-x64 为 node
   - 4.设置环境变量：sudo vim /etc/profile 文件最后:
   ```

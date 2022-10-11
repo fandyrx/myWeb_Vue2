@@ -39,11 +39,8 @@
 		</div>
 		<!-- 播放条 -->
 		<div class="middle">
-
-			<div  class="barControl">
-				
-					<el-slider v-model="currentProcess"
-											
+			<div  class="barControl">	
+					<el-slider v-model="currentProcess"							
 											:show-tooltip="false"
 											:step="0.01"
 											@change="changeCurrentTime($event)"
@@ -155,7 +152,7 @@ export default {
 		changeCurrentTime (value) {
 				
 				this.$refs.audio.currentTime  =  value  /100 * this.$refs.audio.duration 
-					console.log("设置成功:",value)
+				
 			// 拖拽停止更新
 				
 		},
@@ -205,6 +202,7 @@ export default {
   }
 };
 </script>
+
 
 <style lang="less" scoped>
 .controler {

@@ -42,7 +42,6 @@ export default {
 			this.$store.dispatch("user/getUserInfo");
 		},
    async getSentences() {
-			
 			let result = await reqSentences()
 				if(result.code === 200){
 					this.sentence = result.result
