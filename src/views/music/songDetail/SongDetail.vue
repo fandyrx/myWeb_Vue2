@@ -58,6 +58,11 @@ export default {
 			let res = await reqDetail(id);
 
 			if (res.code == 200 && res.playlist != null) {
+				this.$message({
+					message: "获取成功..",
+					duration: 900,
+					type: "success",
+				});
 				//数据整理,执行顺序 ,原因:组件挂载完毕,会执行传值打印, 类函数才创建完毕?
 				//数据更新后再次渲染 视图,所以能用
 				this.info = new SongDetails(res.playlist);
@@ -96,6 +101,16 @@ export default {
 		//切换到音乐主界面
 		this.CHANGE_IsShow(true);
 	},
+
+	// beforeRouteEnter(to, from, next) {
+	// 	next((vm) => {
+	// 		vm.$message({
+	// 			message: "获取成功..",
+	// 			duration: 900,
+	// 			type: "success",
+	// 		});
+	// 	});
+	// },
 };
 </script>
 

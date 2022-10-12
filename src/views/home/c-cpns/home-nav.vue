@@ -18,10 +18,9 @@
 					<el-submenu index="login">
 						<template slot="title">下拉展示</template>
 						<el-menu-item index="/login">测试跳转登录页(index为login路径)</el-menu-item>
-						<el-menu-item index="2-2" disabled>展示用</el-menu-item>
 					</el-submenu>
 
-					<el-menu-item index="/home/blog">未完成Blog</el-menu-item>
+					<el-menu-item index="/home/blog">Blog/测试封装组件区域</el-menu-item>
 					<el-menu-item index="/home/music">未完成Music</el-menu-item>
 				</el-menu>
 			</span>
