@@ -88,8 +88,7 @@ export default {
 		display: flex;
 		height: 80%;
 		.left {
-			height: 100%;
-
+			width: 250px;
 			img {
 				height: 100%;
 				width: 100%;

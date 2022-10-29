@@ -10,7 +10,8 @@
 		</div>
 
 		<div slot="right" class="more">
-			<div>更多<i>→</i></div>
+			<a>更多</a>
+			<i class="more-arrow sprite_02"></i>
 		</div>
 	</Navbar>
 </template>
@@ -81,9 +82,14 @@ export default {
 }
 .more {
 	font-size: 12px;
-	width: 40px;
-	&:hover {
-		cursor: pointer;
+
+	.more-arrow {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		background-position: 0 -240px;
+		margin-left: 4px;
+		vertical-align: middle;
 	}
 }
 </style>

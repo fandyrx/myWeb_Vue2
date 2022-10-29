@@ -55,7 +55,6 @@
 <script>
 import { reqHomeImages } from "@/api/index";
 import moment from "moment";
-moment.suppressDeprecationWarnings = true; // 直接关闭提示
 
 export default {
 	name: "ShowCard",
@@ -124,7 +123,6 @@ export default {
 	},
 	computed: {
 		currentDate: () => {
-			moment.locale("zh-cn");
 			return moment().format("LLL");
 		},
 	},

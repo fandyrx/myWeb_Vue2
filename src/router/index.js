@@ -1,135 +1,132 @@
-import Vue from 'vue'
-import VueRouter from "vue-router" 
-import store from "@/store/index"
+import Vue from "vue";
+import VueRouter from "vue-router";
+import store from "@/store/index";
 
 //获取原型对象上的push函数
-const originalPush = VueRouter.prototype.push
+const originalPush = VueRouter.prototype.push;
 //修改原型对象中的push方法
 VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
-}
+  return originalPush.call(this, location).catch((err) => err);
+};
 
 Vue.use(VueRouter);
 
-const Home = ()=> import ( "@/views/home/HomePage.vue")
-const Login = ()=> import ("@/views/login/Login.vue")
-const Blog = ()=> import ("@/views/blog/Blog.vue")
-const ShowCards = ()=> import ("@/views/showCard/ShowCard.vue")
-const Music  = () => import ("@/views/music/Music.vue")
-const Detail = () => import ("@/views/music/songDetail/SongDetail.vue")
-const TopPlayList = ()=> import ("@/views/music/TopPlayList/TopPlayList")
+const Home = () => import("@/views/home/HomePage.vue");
+const Login = () => import("@/views/login/Login.vue");
+const Blog = () => import("@/views/blog/Blog.vue");
+const ShowCards = () => import("@/views/home/c-cpns/ShowCard.vue");
+const Music = () => import("@/views/music/Music.vue");
+const Detail = () => import("@/views/music/songDetail/SongDetail.vue");
+const TopPlayList = () => import("@/views/music/TopPlayList/TopPlayList");
 // 1.路由规则
 
 const routes = [
- 
+  //test
   {
-    path:'/test',
-    component:()=>import ("@/test/test.vue")
+    path: "/test",
+    component: () => import("@/test/test.vue"),
   },
+
   {
-    path:'/',
-    redirect:'/login'
+    path: "/",
+    redirect: "/login",
   },
+  //login
   {
-    path:'/login',
-    name:'login',
+    path: "/login",
+    name: "login",
     component: Login,
-    hidden:true
+    hidden: true,
   },
- 
+  //home
   {
-    path:'/home' ,
-    name:'home',
-    component:Home,
-    redirect:'/home/showCards',
-    children:[
+    path: "/home",
+    name: "home",
+    component: Home,
+    redirect: "/home/showCards",
+    children: [
       {
-        path:'showCards',
-        name:'showCards',
-        component:ShowCards 
+        path: "showCards",
+        name: "showCards",
+        component: ShowCards,
       },
       {
-        path:"blog",
-        name:'blog',
-        component:Blog
+        path: "blog",
+        name: "blog",
+        component: Blog,
       },
       {
-        path:'music',
-        name:'music',
+        path: "music",
+        name: "music",
         component: Music,
-        children:[
+        children: [
           {
-            path:'detail',
-            name:'detail',
-            component:Detail,
+            path: "detail",
+            name: "detail",
+            component: Detail,
             //播放器是否显示
-            meta:{show:true}
+            meta: { show: true },
           },
-         
         ],
-        meta:{show:true}
+        meta: { show: true },
       },
-      {
-        // 歌单
-        path:"topPlayList",
-        name:"topPlayList",
-        component:TopPlayList, 
-        meta:{show:true}
-     
-      }
-     
-    ]
+    ],
   },
-  
- 
-]
+  //cms
+  {
+    path: "/cms",
+    name: "cms",
+    component: () => import("@/views/cms/Cms.vue"),
+  },
+  //404
+  {
+    path: "/:pathMatch(.*)*",
+    name: "not-found",
+    component: () => import("@/views/not-found/not-found.vue"),
+  },
+];
 //2.创建路由实例
-const  router = new VueRouter({
-  mode:'history',
+const router = new VueRouter({
+  mode: "history",
   routes,
   scrollBehavior() {
     //滚动行为这个函数,需要有返回值,返回值为一个对象。
     //经常可以设置滚动条x|y位置 [x|y数值的设置一般最小是零]
     return { y: 0 };
-}
-})
-
+  },
+});
 
 //3.路由守卫
 
-
-router.beforeEach((to,from,next)=>{
-  
-  let token = store.state.user.token
-  let name = store.state.user.userInfo.username
+router.beforeEach((to, from, next) => {
+  let token = store.state.user.token;
+  let name = store.state.user.userInfo.nickname;
   //已经登录
-  if(token){
-    if(to.path == "/login"){
-     
-      next('/home')
-    }else{
-      if(name){
+  if (token) {
+    if (to.path == "/login") {
+      next("/home");
+    } else {
+      if (name) {
         //有用户信息: 姓名,去非登录页面
-        next()
-      }else{
+        next();
+      } else {
         //已经登录,没获取到用户信息
         try {
           //重新获取信息
-          store.dispatch("getUserInfo")
-          next()
+          store.dispatch("user/getUserInfo");
+          next();
         } catch (error) {
           //token失效
-          store.commit("LOG_OUT")
-          next('/login')
+          store.commit("user/LOG_OUT");
+          next("/login");
         }
       }
     }
   }
   //未登录
-  else{
-    next()
+  else {
+    next();
   }
-})
+});
 
-
-export default router
+export default router;

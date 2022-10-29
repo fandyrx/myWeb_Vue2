@@ -10,12 +10,12 @@
 				<el-header>Search</el-header>
 				<el-main>
 					<Banner v-show="isShow" />
-					<div class="content">
-						<div class="left" v-show="isShow">
+					<div class="content" v-show="isShow">
+						<div class="left">
 							<Commend :List="tags" :Commend="commend" title="热门推荐" />
 							<new-album :newAlbums="newAlbums" />
 						</div>
-						<div class="right" v-show="isShow">
+						<div class="right">
 							<HotSinger />
 						</div>
 					</div>
@@ -59,6 +59,7 @@ export default {
 		this.$store.dispatch("music/getCommend");
 		this.$store.dispatch("music/getCategoryList");
 		this.$store.dispatch("music/getNewAlbum");
+		this.$store.dispatch("music/getHotSingers", { limit: 10, offset: 0 });
 	},
 
 	computed: {
@@ -106,5 +107,7 @@ body > .el-container {
 .content {
 	display: flex;
 	margin-top: 10px;
+	background-color: #fff;
+	padding: 20px 20px 40px 20px;
 }
 </style>
