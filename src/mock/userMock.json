@@ -1,10 +1,9 @@
 {
-  "id": "@id()",
-  "username": "@cname()",
+  "userId": "@id()",
+  "nickname": "@cname()",
   "date": "@date()",
-  "avatar": "@image('200x200','','#fff','avatar')",
+  "avatarUrl": "@image('200x200','','#fff','avatar')",
   "ip": "@ip()",
   "email": "@email()",
-  "token":"666666"
+  "token": "666666"
 }
-

@@ -107,3 +107,18 @@ export class AlbumDetail {
 		this.tracks = album.tracks; //专辑内容(含id)
 	}
 }
+
+//9.热门歌手
+export const reqHotSingers = (limit = 50, offset = 0) => {
+	return requestM({
+		url: "/top/artists",
+		params: {
+			limit,
+			offset,
+		},
+	});
+};
+
+
+
+
