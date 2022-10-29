@@ -72,6 +72,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/topplaylist",
+    name: "topPlayList",
+    component: () => import("@/views/music/TopPlayList/TopPlayList.vue"),
+  },
   //cms
   {
     path: "/cms",
