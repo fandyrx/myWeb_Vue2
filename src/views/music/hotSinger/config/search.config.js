@@ -22,4 +22,8 @@ export const searchFormConfig = {
       rules: { required: true, message: "请输入密码", trigger: "blur" },
     },
   ],
+  CollectBtn: {
+    icon: "el-icon-s-promotion",
+    CollectBtnName: "登录",
+  },
 };

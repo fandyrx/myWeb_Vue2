@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store/index";
+import { firstMenu } from "@/utils/map-menus";
 
 //获取原型对象上的push函数
 const originalPush = VueRouter.prototype.push;
@@ -10,23 +11,19 @@ VueRouter.prototype.push = function push(location) {
 };
 
 Vue.use(VueRouter);
-
+//1.home
 const Home = () => import("@/views/home/HomePage.vue");
 const Login = () => import("@/views/login/Login.vue");
 const Blog = () => import("@/views/blog/Blog.vue");
 const ShowCards = () => import("@/views/home/c-cpns/ShowCard.vue");
 const Music = () => import("@/views/music/Music.vue");
 const Detail = () => import("@/views/music/songDetail/SongDetail.vue");
-const TopPlayList = () => import("@/views/music/TopPlayList/TopPlayList");
+
+//2.cms
+const cmsLogin = () => import("@/views/cms/login/login.vue");
 // 1.路由规则
-
-const routes = [
-  //test
-  {
-    path: "/test",
-    component: () => import("@/test/test.vue"),
-  },
-
+//1.常量路由 所有用户能访问
+const constantRoutes = [
   {
     path: "/",
     redirect: "/login",
@@ -38,11 +35,36 @@ const routes = [
     component: Login,
     hidden: true,
   },
+  //cms
+  {
+    path: "/cms",
+    redirect: "/cms/cmsLogin",
+    component: () => import("../views/cms/cms.vue"),
+    children: [
+      {
+        path: "cmsLogin",
+        name: "cmsLogin",
+        component: cmsLogin,
+      },
+    ],
+  },
+  {
+    path: "/main",
+    name: "main",
+    component: () => import("@/views/cms/main"),
+  },
+  //test
+  {
+    path: "/test",
+    component: () => import("@/test/test.vue"),
+  },
+
   //home
   {
     path: "/home",
     name: "home",
     component: Home,
+
     redirect: "/home/showCards",
     children: [
       {
@@ -77,23 +99,21 @@ const routes = [
     name: "topPlayList",
     component: () => import("@/views/music/TopPlayList/TopPlayList.vue"),
   },
-  //cms
-  {
-    path: "/cms",
-    name: "cms",
-    component: () => import("@/views/cms/Cms.vue"),
-  },
+
   //404
   {
-    path: "/:pathMatch(.*)*",
+    // path: "/:pathMatch(.*)*",    router4写法，会一致跳入404
+    path: "*",
     name: "not-found",
     component: () => import("@/views/not-found/not-found.vue"),
+    hidden: true,
   },
 ];
+
 //2.创建路由实例
 const router = new VueRouter({
-  mode: "history",
-  routes,
+  // mode: "history",
+  routes: constantRoutes,
   scrollBehavior() {
     //滚动行为这个函数,需要有返回值,返回值为一个对象。
     //经常可以设置滚动条x|y位置 [x|y数值的设置一般最小是零]
@@ -105,14 +125,19 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let token = store.state.user.token;
-  let name = store.state.user.userInfo.nickname;
-  //已经登录
+  let userInfo = store.state.user.userInfo;
+
+  //已经登录 token获取
   if (token) {
+    // console.log("l守卫", router.getRoutes());
     if (to.path == "/login") {
+      //登录页面
+
       next("/home");
     } else {
-      if (name) {
-        //有用户信息: 姓名,去非登录页面
+      // 去非登录页面
+      if (userInfo) {
+        //有用户信息
         next();
       } else {
         //已经登录,没获取到用户信息
@@ -131,6 +156,12 @@ router.beforeEach((to, from, next) => {
   //未登录
   else {
     next();
+  }
+
+  if (to.path === "/main") {
+    //跳转侧边栏匹配方法报错解决
+    // console.log(firstMenu, "sss");
+    next(firstMenu.url);
   }
 });
 

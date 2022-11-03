@@ -2,7 +2,7 @@
   <div class="my-form">
     <!-- 头部插槽 -->
     <div class="header">
-      <slot name="header"></slot>
+      <slot name="header" :title="title"></slot>
     </div>
     <!-- form内容区域  -->
     <el-form :label-width="labelWidth" :model="formData">
@@ -40,6 +40,7 @@
                     v-for="option in item.options"
                     :key="option.value"
                     :value="option.value"
+                    :label="option.title"
                   >
                     {{ option.title }}</el-option
                   >
@@ -48,6 +49,7 @@
               <!-- datepicker -->
               <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker
+                  align="center"
                   style="width: 100%"
                   v-bind="item.otherOptions"
                   :value="value[`${item.field}`]"
@@ -61,7 +63,7 @@
     </el-form>
     <!-- 底部插槽 -->
     <div class="footer">
-      <slot name="footer"></slot>
+      <slot name="footer" :row="CollectBtn"></slot>
     </div>
   </div>
 </template>
@@ -78,6 +80,10 @@ export default {
       default: () => {
         return [];
       },
+    },
+    title: {
+      type: String,
+      default: "",
     },
     labelWidth: {
       type: String,
@@ -96,6 +102,15 @@ export default {
         sm: 24,
         xs: 24,
       }),
+    },
+    CollectBtn: {
+      type: Object,
+      default: () => {
+        return {
+          icon: "el-icon-search",
+          CollectBtnName: "搜索",
+        };
+      },
     },
   },
   name: "MyForm",

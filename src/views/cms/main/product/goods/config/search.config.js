@@ -3,34 +3,34 @@ export const searchFormConfig = {
   itemLayout: {
     padding: "10px 40px",
   },
-  // colLayout: {
-  //   span: 8,
-  // },
+  colLayout: {
+    span: 8,
+  },
   formItems: [
     {
       field: "name",
       type: "input",
-      label: "用户名",
-      placeholder: "请输入用户名",
+      label: "商品名称",
+      placeholder: "请输入商品名称",
     },
 
     {
-      field: "realname",
+      field: "oldPrice",
       type: "input",
-      label: "真实姓名",
-      placeholder: "请输入真实姓名",
+      label: "原价格",
+      placeholder: "请输入原价格",
     },
     {
-      field: "cellphone",
+      field: "newPrice",
       type: "input",
-      label: "手机号码",
-      placeholder: "请输入手机号码",
+      label: "新价格",
+      placeholder: "请输入新价格",
     },
     {
-      field: "enable",
+      field: "status",
       type: "select",
-      label: "用户状态",
-      placeholder: "请选择用户状态",
+      label: "状态",
+      placeholder: "请选择状态",
       options: [
         { title: "禁用", value: "0" },
         { title: "启用", value: "1" },

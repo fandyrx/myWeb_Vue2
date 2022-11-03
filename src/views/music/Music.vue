@@ -1,32 +1,32 @@
 <template>
-	<div class="container">
-		<el-container>
-			<el-aside width="20vw">
-				拖拽歌曲,暂时存放(未做接口)
-				<PlayList />
-			</el-aside>
+  <div class="container">
+    <el-container>
+      <el-aside width="20vw">
+        拖拽歌曲,暂时存放(未做接口)
+        <PlayList />
+      </el-aside>
 
-			<el-container>
-				<el-header>Search</el-header>
-				<el-main>
-					<Banner v-show="isShow" />
-					<div class="content" v-show="isShow">
-						<div class="left">
-							<Commend :List="tags" :Commend="commend" title="热门推荐" />
-							<new-album :newAlbums="newAlbums" />
-						</div>
-						<div class="right">
-							<HotSinger />
-						</div>
-					</div>
+      <el-container>
+        <el-header>Search</el-header>
+        <el-main>
+          <Banner v-show="isShow" />
+          <div class="content" v-show="isShow">
+            <div class="left">
+              <Commend :List="tags" :Commend="commend" title="热门推荐" />
+              <new-album :newAlbums="newAlbums" />
+            </div>
+            <div class="right">
+              <HotSinger />
+            </div>
+          </div>
 
-					<transition name="fade" mode="out-in" appear>
-						<router-view v-if="!isShow" :key="key" />
-					</transition>
-				</el-main>
-			</el-container>
-		</el-container>
-	</div>
+          <transition name="fade" mode="out-in" appear>
+            <router-view v-if="!isShow" :key="key" />
+          </transition>
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script>
@@ -39,75 +39,75 @@ import NewAlbum from "./newAlbum/NewAlbum.vue";
 import { mapState } from "vuex";
 
 export default {
-	name: "Music",
-	data() {
-		return {
-			key: this.$route.fullPath + Math.random(),
-		};
-	},
-	components: {
-		Banner,
-		Commend,
-		PlayList,
-		HotSinger,
-		NewAlbum,
-	},
+  name: "Music",
+  data() {
+    return {
+      key: this.$route.fullPath + Math.random(),
+    };
+  },
+  components: {
+    Banner,
+    Commend,
+    PlayList,
+    HotSinger,
+    NewAlbum,
+  },
 
-	beforeCreate() {
-		//轮播图,推荐列表,歌单分类
-		this.$store.dispatch("music/getBanner", 0);
-		this.$store.dispatch("music/getCommend");
-		this.$store.dispatch("music/getCategoryList");
-		this.$store.dispatch("music/getNewAlbum");
-		this.$store.dispatch("music/getHotSingers", { limit: 10, offset: 0 });
-	},
+  beforeCreate() {
+    //轮播图,推荐列表,歌单分类
+    this.$store.dispatch("music/getBanner", 0);
+    this.$store.dispatch("music/getCommend");
+    this.$store.dispatch("music/getCategoryList");
+    this.$store.dispatch("music/getNewAlbum");
+    this.$store.dispatch("music/getHotSingers", { limit: 10, offset: 0 });
+  },
 
-	computed: {
-		...mapState("music", ["commend", "newAlbums", "tags", "isShow"]),
-	},
-	watch: {
-		$route() {
-			// console.log(this.$route.fullPath ,"routechange");
-		},
-	},
-	beforeDestroy() {
-		this.$store.state.music.isShow = true;
-	},
+  computed: {
+    ...mapState("music", ["commend", "newAlbums", "tags", "isShow"]),
+  },
+  watch: {
+    $route() {
+      // console.log(this.$route.fullPath ,"routechange");
+    },
+  },
+  beforeDestroy() {
+    this.$store.state.music.isShow = true;
+  },
 };
 </script>
 
 <style scoped>
 .container {
-	font-family: serif;
+  font-family: serif;
 }
 
 .el-header {
-	background-color: #b3c0d1;
-	color: #333;
-	text-align: center;
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
 }
 .el-aside {
-	background-color: #d3dce6;
-	color: #333;
+  background-color: #d3dce6;
+  color: #333;
 }
 
 .el-main {
-	background-color: #e9eef3;
-	color: #333;
+  background-color: #e9eef3;
+  color: #333;
 }
 
 body > .el-container {
-	margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .el-container {
-	width: 100vw;
+  width: 100vw;
 }
 
 .content {
-	display: flex;
-	margin-top: 10px;
-	background-color: #fff;
-	padding: 20px 20px 40px 20px;
+  display: flex;
+  margin-top: 10px;
+  background-color: #fff;
+  padding: 20px 20px 40px 20px;
 }
 </style>

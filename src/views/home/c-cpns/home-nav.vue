@@ -22,14 +22,12 @@
 
           <el-submenu index="login">
             <template slot="title">Drag</template>
-            <el-menu-item index="/login"
-              >测试跳转登录页(index为login路径)</el-menu-item
-            >
-            <el-menu-item index="/cms">cms-input</el-menu-item>
+            <el-menu-item index="/login">测试跳转登录页</el-menu-item>
           </el-submenu>
 
           <el-menu-item index="/home/blog">Blog/测试封装组件区域</el-menu-item>
           <el-menu-item index="/home/music">未完成Music</el-menu-item>
+          <el-menu-item index="/cms">cms-input</el-menu-item>
         </el-menu>
       </span>
 

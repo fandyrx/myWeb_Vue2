@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>html+css 动态input</title>
+  </head>
+  <body>
+    <div class="box">
+      <h2>SYSTEM</h2>
+      <div class="inputBox">
+        <input type="text" required />
+        <span>username or email</span>
+      </div>
+      <div class="inputBox">
+        <input type="text" required />
+        <span>password</span>
+      </div>
+      <div class="buttonBox">
+        <button>LOGIN</button>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  /*  gap: 20px;
+   * user-select: none;     CSS 属性 user-select 控制用户能否选中文本。除了文本框内，它对被载入为 chrome 的内容没有影响。
+   * text-transform: uppercase;  text-transform CSS 属性指定如何将元素的文本大写。它可以用于使文本显示为全大写或全小写，也可单独对每一个单词进行操作。
+   * pointer-events: none;  指定在什么情况下 (如果有) 某个特定的图形元素可以成为鼠标事件的 target (en-US)。   鼠标事件穿透该元素（不作用）
+   * letter-spacing: 0.1em; 用于设置文本字符的间距表现。*/
+</script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .box {
+    min-height: 100vh;
+    background-color: #09203f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    user-select: none;
+    gap: 20px;
+  }
+
+  .box h2 {
+    color: white;
+  }
+
+  .inputBox {
+    position: relative;
+    width: 300px;
+  }
+
+  .inputBox input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: #09203f;
+    border-radius: 5px;
+    outline: none;
+    color: white;
+    font-size: 1em;
+    transition: 0.3s;
+  }
+
+  .inputBox span {
+    position: absolute;
+    left: 0;
+    padding: 15px;
+    pointer-events: none;
+    font-size: 1em;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    transition: 0.3s;
+  }
+
+  .inputBox input:valid ~ span,
+  .inputBox input:focus ~ span {
+    color: #50c9c3;
+    transform: translateX(15px) translateY(-10px);
+    font-size: 0.65em;
+    padding: 0 5px;
+    background: #09203f;
+    letter-spacing: 0.1em;
+  }
+
+  .inputBox input:valid ~ span,
+  .inputBox input:focus ~ span {
+    border: 1px solid #50c9c3;
+  }
+
+  .buttonBox button {
+    padding: 10px 30px;
+    border-radius: 5px;
+    background: none;
+    font-size: 1em;
+    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+  }
+
+  .buttonBox button:hover {
+    color: #50c9c3;
+    border: 1px solid #50c9c3;
+  }
+</style>
