@@ -30,7 +30,7 @@
     </div>
 
     <!-- 登录modal -->
-    <el-dialog :visible.sync="dialogVisible" width="30%">
+    <el-dialog :visible.sync="dialogVisible" width="30%" destroy-on-close>
       <div slot="title">
         <p>登录</p>
       </div>
@@ -70,7 +70,14 @@ export default {
   methods: {
     login(loginInfo) {
       // this.dialogVisible = false
-      this.$store.dispatch("music/getMusicLogin", loginInfo);
+      const loginOption = {
+        loginInfo,
+        cb: (payload) => {
+          //请求到数据时回调
+          this.dialogVisible = false;
+        },
+      };
+      this.$store.dispatch("music/getMusicLogin", loginOption);
     },
     handleLogout() {
       this.$store.commit("music/LogOut");

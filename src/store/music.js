@@ -1,4 +1,5 @@
 import localCache from "@/utils/cache";
+import { Message } from "element-ui";
 import {
   reqBanner,
   reqCommend,
@@ -144,10 +145,18 @@ const actions = {
   },
   //7.登录
   async getMusicLogin({ commit }, payload) {
-    const { phone, password } = payload;
+    const { phone, password } = payload.loginInfo;
+
     const res = await reqCellphoneLogin(phone, password);
     if (res.code === 200) {
       commit("CHANGE_USERINFO", res);
+      payload.cb(); //用于传递组件请求成功标志 是否改变modal 显示
+      Message({
+        type: "info",
+        message: "验证成功",
+      });
+    } else {
+      Message("验证失败");
     }
   },
 };

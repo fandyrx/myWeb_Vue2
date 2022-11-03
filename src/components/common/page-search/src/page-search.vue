@@ -1,9 +1,10 @@
 <template>
   <my-form v-bind="searchFormConfig" v-model="formData">
-    <div slot="header">
-      <h1 class="title">{{ title }}</h1>
-    </div>
-    <div slot="footer">
+    <template #header="scope">
+      <h1 class="title">{{ scope.title }}</h1>
+    </template>
+
+    <template #footer="scope">
       <div class="btn">
         <el-button @click="handleResetClick" icon="el-icon-refresh-right"
           >重置</el-button
@@ -11,11 +12,11 @@
         <el-button
           type="primary"
           @click="handleSearchClick"
-          icon="CollectBtn.icon"
-          >{{ CollectBtn.CollectBtnName }}</el-button
+          :icon="scope.row.icon"
+          >{{ scope.row.CollectBtnName }}</el-button
         >
       </div>
-    </div>
+    </template>
   </my-form>
 </template>
 
@@ -26,19 +27,6 @@ export default {
     searchFormConfig: {
       type: Object,
       required: true,
-    },
-    title: {
-      type: String,
-      default: "",
-    },
-    CollectBtn: {
-      type: Object,
-      default() {
-        return {
-          icon: "el-icon-search",
-          CollectBtnName: "搜索",
-        };
-      },
     },
   },
   data() {
@@ -52,6 +40,7 @@ export default {
   created() {
     //动态决定formData属性
     const formItems = this.searchFormConfig.formItems ?? [];
+
     const formOriginData = {};
     for (const item of formItems) {
       formOriginData[item.field] = "";

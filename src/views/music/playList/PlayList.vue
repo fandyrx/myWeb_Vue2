@@ -1,8 +1,8 @@
 <template>
   <div>
        <div class="detail" id="div1" ref="playList" @drop="drop" @dragover="allowDrop" @click="toPlay">
-      
-      </div>   
+
+      </div>
  </div>
 </template>
 
@@ -11,7 +11,7 @@
 import { mapMutations } from "vuex";
 export default {
   name: 'PlayList',
-  data() { 
+  data() {
     return {
 
     }
@@ -23,40 +23,38 @@ export default {
        allowDrop(ev){
         ev.preventDefault();
       },
-      drop(e){  
+      drop(e){
         //  console.log(e,'drop');
              e.preventDefault();
-             //获取id 
-              var data = e.dataTransfer.getData("text");   
-              //克隆节点,添加  
+             //获取id
+              var data = e.dataTransfer.getData("text");
+              //克隆节点,添加
               // e.target.appendChild();
               const nodeList = [...this.$refs.playList.childNodes]
-              
+
               if(nodeList.findIndex( item => item.id == data) == -1){
                   this.$refs.playList.appendChild(document.getElementById(data).cloneNode(true))
               }else{
                   return
               }
-           
+
       },
       toPlay(e){
         // console.log(e.currentTarget);
           const index = e.target.parentNode.parentNode.dataset.index
-     
+
         // 只能点击图片
-        // 获取不到 自定义index  
+        // 获取不到 自定义index
         this.getMusicUrl(index);
         //   const nodeList = [...this.$refs.playList.childNodes]
         //  console.log(nodeList[0]);
 
       },
       ...mapMutations("music", ["getMusicUrl"]),
-   
+
   },
- 
-  mounted() {
- 
-  },
+
+
  }
 </script>
 
@@ -66,11 +64,11 @@ export default {
   padding: 10px;
   width: 20vw;
   height: 100vh;
-   
+
   display: flex;
   flex-direction: column;
  }
- 
+
 
 //拖拽歌曲的样式
 .detail {

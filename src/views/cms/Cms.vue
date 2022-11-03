@@ -1,15 +1,22 @@
 <template>
   <div class="cms-wrapper">
-    <user />
+    <router-view :key="key"></router-view>
   </div>
 </template>
 
 <script>
-import User from "./user/user.vue";
 export default {
   name: "cms",
-  components: { User },
+  data() {
+    return {
+      key: this.$route.fullPath,
+    };
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.cms-wrapper {
+  min-height: 100vh;
+}
+</style>
